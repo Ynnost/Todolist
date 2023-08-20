@@ -33,7 +33,7 @@ export function Todolist(props: PropsType) {
     }
 
     const removeTask = (id: string) => {
-        let filteredTasks = tasks.filter(t => t.id != id);
+        let filteredTasks = tasks.filter(t => t.id !== id);
         setTasks(filteredTasks);
     }
 
@@ -66,9 +66,9 @@ export function Todolist(props: PropsType) {
         setTitle('')
     }
 
-    const onKeyPressHandlerList = (e: any) => {
+    const onKeyPressHandlerList = (event: any) => {
         setError(null)
-        if (e.key === 'Enter') {
+        if (event.key === 'Enter') {
             addTaskHandler()
         }
     }
