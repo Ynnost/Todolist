@@ -74,15 +74,9 @@ export function Todolist(props: PropsType) {
     }
 
 
-    // const onChangeHandler = (tID:string,e: ChangeEvent<HTMLInputElement>) => {
-    //     return props.changeTaskStatus(tID.id, e.currentTarget.checked)}
-    // const onChangeStatus = (taskId: string, isDone: boolean) => {
-    //     let task = colanderFoo().find(t => t.id === taskId);
-    //     if (task) {
-    //         task.isDone = isDone
-    //     };
-    //     setTasks([...tasks])
-    // }
+    const onChangeIsDaneHandler = (tID: string, checked:boolean) => {
+         props.changeTaskStatus(tID, checked)
+    }
 
 
 
@@ -99,11 +93,11 @@ export function Todolist(props: PropsType) {
         </div>
         <ul>
             {colanderFoo().map(t => {
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        return props.changeTaskStatus(t.id, e.currentTarget.checked)
-                    }
-                    return (<li key={t.id} className={t.isDone? "is-done": ""}>
-                        <input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>
+                    // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                    //     return props.changeTaskStatus(t.id, e.currentTarget.checked)
+                    // }
+                    return (<li key={t.id} className={t.isDone ? "is-done": ""}>
+                        <input type="checkbox" onChange={(e)=>onChangeIsDaneHandler(t.id,e.currentTarget.checked)}/>
                         <span>{t.title}</span>
                         <button onClick={() => removeTask(t.id)}>x</button>
                     </li>)
