@@ -25,32 +25,3 @@ const Button = (props: PropsType) => {
 };
 
 export default Button;
-
-// const activeTab = () => {
-//     let buttonActive = ''
-//      if(props.activeTab === "all"){buttonActive = 'active-filter'} else return
-
-
-//      && "three" && "active" && "completed" ? buttonActive = 'active-filter' : buttonActive
-//     return buttonActive
-// }
-
-// const activeTab = (): boolean => {
-//
-//     switch (props.activeTab) {
-//         case 'all':
-//             return  true
-//         default:
-//             return false
-//     }
-//
-//     if(props.activeTab === 'all') {
-//         return  true
-//     }
-//
-//     if (props.activeTab === 'three') {
-//         return  true
-//     }
-//
-//     return false
-// }

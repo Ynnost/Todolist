@@ -15,7 +15,7 @@ type PropsType = {
     // removeTask: (taskId: number) => void
     // changeFilter: (value: FilterValuesType) => void
     // deleteAllTasks:()=>void
-    changeTaskStatus: (taskId: string, isDone: boolean) => void
+    // changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
 
 
@@ -74,8 +74,14 @@ export function Todolist(props: PropsType) {
     }
 
 
+    const changeStatus = (taskId: string, isDone: boolean) => {
+        setTasks(colanderFoo().map(el => el.id === taskId ? {...el, isDone} : el))
+        console.log(isDone)
+    }
+
+
     const onChangeIsDaneHandler = (tID: string, checked:boolean) => {
-         props.changeTaskStatus(tID, checked)
+        changeStatus(tID, checked)
     }
 
 
@@ -93,11 +99,8 @@ export function Todolist(props: PropsType) {
         </div>
         <ul>
             {colanderFoo().map(t => {
-                    // const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                    //     return props.changeTaskStatus(t.id, e.currentTarget.checked)
-                    // }
                     return (<li key={t.id} className={t.isDone ? "is-done": ""}>
-                        <input type="checkbox" onChange={(e)=>onChangeIsDaneHandler(t.id,e.currentTarget.checked)}/>
+                        <input type="checkbox" checked={t.isDone} onChange={(e)=>onChangeIsDaneHandler(t.id,e.currentTarget.checked)}/>
                         <span>{t.title}</span>
                         <button onClick={() => removeTask(t.id)}>x</button>
                     </li>)
@@ -118,156 +121,8 @@ export function Todolist(props: PropsType) {
             <Button active={filter === "completed"} name={'Completed'} callback={() => {
                 changeFilter("completed")
             }}/>
-
-            {/*<button onClick={() => {*/}
-            {/*    changeFilter("three")*/}
-            {/*}}>Give me the first three*/}
-            {/*</button>*/}
-            {/*<button onClick={() => {*/}
-            {/*    changeFilter("all")*/}
-            {/*}}>All*/}
-            {/*</button>*/}
-            {/*<button onClick={() => {*/}
-            {/*    changeFilter("active")*/}
-            {/*}}>Active*/}
-            {/*</button>*/}
-            {/*<button onClick={() => {*/}
-            {/*    changeFilter("completed")*/}
-            {/*}}>Completed*/}
-            {/*</button>*/}
         </div>
     </div>
 }
 
 
-//------------------------------------------------------------------------------------------------
-
-// import React, {useState} from 'react';
-// import {FilterValuesType} from './App';
-//
-// type TaskType = {
-//     id: number
-//     title: string
-//     isDone: boolean
-// }
-//
-// type PropsType = {
-//     title: string
-//     tasks: Array<TaskType>
-//     removeTask: (taskId: number) => void
-//     //changeFilter: (value: FilterValuesType) => void
-//     deleteAllTasks:()=>void
-// }
-//
-// export function Todolist(props: PropsType) {
-//
-//     let [filter, setFilter] = useState<FilterValuesType>("all");
-//
-//     let tasksForTodolist = props.tasks;
-//
-//     if (filter === "three") {
-//         tasksForTodolist = props.tasks.filter(t => t.id<4);
-//     }
-//     if (filter === "active") {
-//         tasksForTodolist = props.tasks.filter(t => t.isDone === false);
-//     }
-//     if (filter === "completed") {
-//         tasksForTodolist = props.tasks.filter(t => t.isDone === true);
-//     }
-//
-//     function changeFilter(value: FilterValuesType) {
-//         setFilter(value);
-//     }
-//
-//     return <div>
-//         <h3>{props.title}</h3>
-//         <div>
-//             <input/>
-//             <button>+</button>
-//         </div>
-//         <ul>
-//             {
-//                 tasksForTodolist.map(t => <li key={t.id}>
-//                     <input type="checkbox" checked={t.isDone}/>
-//                     <span>{t.title}</span>
-//                     <button onClick={ () => { props.removeTask(t.id) } }>x</button>
-//                 </li>)
-//             }
-//         </ul>
-//         <button onClick={()=>props.deleteAllTasks()}>DELETE ALL TASKS</button>
-//         <div>
-//             <button onClick={ () => { changeFilter("three") } }>
-//                 Give me the first three
-//             </button>
-//             <button onClick={ () => { changeFilter("all") } }>
-//                 All
-//             </button>
-//             <button onClick={ () => { changeFilter("active") } }>
-//                 Active
-//             </button>
-//             <button onClick={ () => { changeFilter("completed") } }>
-//                 Completed
-//             </button>
-//         </div>
-//     </div>
-// }
-
-
-// const colanderFoo = () => {
-//     let colander = tasks
-//     if (globalfilterKey === 'Active') {
-//         colander = tasks.filter(el => !el.isDone)
-//     } else if (globalfilterKey === 'Completed') {
-//         colander = (tasks.filter(el => el.isDone))
-//     }
-//     return colander
-// }
-
-// const colanderFoo = () => {
-//     let colander = tasks
-//     if (globalfilterKey === 'Active') {
-//         colander = tasks.filter(el => !el.isDone)
-//     } else if (globalfilterKey === 'Completed') {
-//         colander = (tasks.filter(el => el.isDone))
-//     }
-//     return colander
-// }
-//
-// const removeTask = (tasksId: number) => setTask(tasks.filter(el => el.id !== tasksId))
-//
-// console.log(removeTask)
-//
-// const taskMap = colanderFoo().map((el) => {
-//     return (
-//         <li key={el.id}>
-//             <button onClick={()=>removeTask(el.id)}>X</button>
-//             <input type="checkbox" checked={el.isDone}/> <span>{el.title}</span></li>
-//     )
-// })
-
-// {
-//     colanderFoo().map(t => {
-//         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-//             return props.changeTaskStatus(t.id, e.currentTarget.checked)
-//             // console.log(`ID = ${t.id} ${e.currentTarget.checked}`)
-//         }
-//         return (<li key={t.id}>
-//             <input type="checkbox"
-//                    onChange={onChangeHandler}
-//                    checked={t.isDone}/>
-//             <span>{t.title}</span>
-//             <button onClick={() => {
-//                 removeTask(t.id)
-//             }}>x
-//             </button>
-//         </li>)
-//     })
-// }
-
-// const addTask = (title: string) => {
-//     if(title.trim() !== ""){
-//         let newTak = {id: v1(), title: title.trim(), isDone: false}
-//         setTasks([newTak, ...tasks])} else {
-//         setError("Title is required")
-//     }
-// }
