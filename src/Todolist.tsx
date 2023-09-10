@@ -12,12 +12,12 @@ type TaskType = {
 type PropsType = {
     title: string
     tasks: Array<TaskType>
+    // todolist: Array<TodolistType>
     // removeTask: (taskId: number) => void
     // changeFilter: (value: FilterValuesType) => void
     // deleteAllTasks:()=>void
     // changeTaskStatus: (taskId: string, isDone: boolean) => void
 }
-
 
 
 export function Todolist(props: PropsType) {
@@ -26,6 +26,7 @@ export function Todolist(props: PropsType) {
     let [filter, setFilter] = useState<FilterValuesType>("all");
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
+    // let [todolist, setTodolist] = useState(props.todolist)
     // let [activeButton, setActiveButton] = useState('')
 
     const deleteAllTasks = () => {
@@ -38,21 +39,28 @@ export function Todolist(props: PropsType) {
     }
 
     const colanderFoo = () => {
-        let tasksForTodolist = tasks;
-        if (filter === "three") {tasksForTodolist = tasks.filter((t, i) => i < 4);}
-        if (filter === "active") {tasksForTodolist = tasks.filter(t => !t.isDone);}
-        if (filter === "completed") {tasksForTodolist = tasks.filter(t => t.isDone);}
+        let tasksForTodolist = tasks
+        if (filter === "three") {
+            tasksForTodolist = tasks.filter((t, i) => i < 4);
+        }
+        if (filter === "active") {
+            tasksForTodolist = tasks.filter(t => !t.isDone);
+        }
+        if (filter === "completed") {
+            tasksForTodolist = tasks.filter(t => t.isDone);
+        }
         return tasksForTodolist
     }
 
-    const changeFilter = (value: FilterValuesType) => {setFilter(value)}
-
-
+    const changeFilter = (value: FilterValuesType) => {
+        setFilter(value)
+    }
 
     const addTask = (title: string) => {
-        if(title.trim() !== ""){
-        let newTak = {id: v1(), title: title.trim(), isDone: false}
-        setTasks([newTak, ...tasks])} else {
+        if (title.trim() !== "") {
+            let newTak = {id: v1(), title: title.trim(), isDone: false}
+            setTasks([newTak, ...tasks])
+        } else {
             setError("Title is required")
         }
     }
@@ -73,17 +81,15 @@ export function Todolist(props: PropsType) {
         }
     }
 
-
     const changeStatus = (taskId: string, isDone: boolean) => {
         setTasks(colanderFoo().map(el => el.id === taskId ? {...el, isDone} : el))
         console.log(isDone)
     }
 
 
-    const onChangeIsDaneHandler = (tID: string, checked:boolean) => {
+    const onChangeIsDaneHandler = (tID: string, checked: boolean) => {
         changeStatus(tID, checked)
     }
-
 
 
     return <div>
@@ -92,26 +98,28 @@ export function Todolist(props: PropsType) {
             <input value={title}
                    onKeyDown={onKeyPressHandlerList}
                    onChange={onChangeHandler}
-            className={error ? "error": ""}/>
+                   className={error ? "error" : ""}/>
             <button onClick={addTaskHandler}>+
             </button>
             {error && <div className={"error-message"}>{error}</div>}
         </div>
         <ul>
             {colanderFoo().map(t => {
-                    return (<li key={t.id} className={t.isDone ? "is-done": ""}>
-                        <input type="checkbox" checked={t.isDone} onChange={(e)=>onChangeIsDaneHandler(t.id,e.currentTarget.checked)}/>
-                        <span>{t.title}</span>
-                        <button onClick={() => removeTask(t.id)}>x</button>
-                    </li>)
-                })}
+                return (<li key={t.id} className={t.isDone ? "is-done" : ""}>
+                    <input type="checkbox" checked={t.isDone}
+                           onChange={(e) => onChangeIsDaneHandler(t.id, e.currentTarget.checked)}/>
+                    <span>{t.title}</span>
+                    <button onClick={() => removeTask(t.id)}>x</button>
+                </li>)
+            })}
         </ul>
         <div>
             <button onClick={deleteAllTasks}>DeleteAll</button>
         </div>
         <div>
             <Button active={filter === "three"} name={'Give me the first three'} callback={() => {
-                changeFilter("three")}}/>
+                changeFilter("three")
+            }}/>
             <Button active={filter === "all"} name={'All'} callback={() => {
                 changeFilter("all")
             }}/>
@@ -126,3 +134,25 @@ export function Todolist(props: PropsType) {
 }
 
 
+// const changeFilter = (todolistID: string, value: FilterValuesType) => {
+//     setFilter(value)
+//     // setTodolists(todolists.map(el => el.id === todolistID ? {...el, filter: value} : el))
+// }
+
+// const colanderFoo = () => {
+//     let tasksForTodolist = tasks.filter((t,i)=>{
+//         if (filter === "three") return i < 4
+//         if (filter === "active") return !t.isDone
+//         if (filter === "completed") return t.isDone
+//     });
+//     // if (filter === "three") {
+//     //     tasksForTodolist = tasks.filter((t, i) => i < 4);
+//     // }
+//     // if (filter === "active") {
+//     //     tasksForTodolist = tasks.filter(t => !t.isDone);
+//     // }
+//     // if (filter === "completed") {
+//     //     tasksForTodolist = tasks.filter(t => t.isDone);
+//     // }
+//     return tasks
+// }
