@@ -6,7 +6,8 @@ type PropsType = {
     callback: () => void
     activeTab?:FilterValuesType
     // type:FilterValuesType
-    active: boolean
+    active?: boolean
+    className?:string
 }
 
 
