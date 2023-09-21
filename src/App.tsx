@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid'
-import Button from "./components/Button";
+import AddItemForm from "./components/AddItemForm";
 
 export type FilterValuesType = "all" | "active" | "completed" | "three";
 
@@ -47,11 +47,9 @@ function App() {
 
     const addTask = (title: string, todolistID: string) => {
         let task = {id: v1(), title: title, isDone: false};
-        let tasks = tasksObj[todolistID]
-        let newTask = [task, ...tasks];
-        tasksObj[todolistID] = newTask;
+        let todolistTasks = tasksObj[todolistID]
+        tasksObj[todolistID] = [task, ...todolistTasks];
         setTasks({...tasksObj})
-        console.log(tasksObj)
     }
 
     const removeTodolist = (todolistID: string) => {
@@ -62,25 +60,33 @@ function App() {
 
     const removeTask = (id: string, todolistID: string) => {
         let tasks = tasksObj[todolistID]
-        let filteredTasks = tasks.filter(t => t.id !== id);
-        tasksObj[todolistID] = filteredTasks;
+        // let filteredTasks = tasks.filter(t => t.id !== id);
+        // tasksObj[todolistID] = filteredTasks;
+        tasksObj[todolistID] = tasks.filter(t => t.id !== id);
         setTasks({...tasksObj})
     }
 
     const changeStatus = (taskId: string, isDone: boolean, todolistID: string) => {
         let tasks = tasksObj[todolistID]
-        let task = tasks.find(t=>t.id === taskId)
-        if(task) {
+        let task = tasks.find(t => t.id === taskId)
+        if (task) {
             task.isDone = isDone
             setTasks({...tasksObj})
         }
     }
 
+    const addTodolist = (newTitle: string) => {
+        const todolistID = v1()
+        let newTodolist: TodolistType = {id: todolistID, title: newTitle, filter: 'all'}
+
+        setTodolistS([newTodolist,...todolistS])
+        setTasks({...tasksObj,[todolistID]:[]})
+    }
+
 
     return (
         <div className="App">
-            <input/> <Button name={'New Todolist'} callback={() => {
-        }}/>
+            <AddItemForm callback={addTodolist}/>
             {todolistS.map(el => {
                 return (
                     <Todolist key={el.id}
