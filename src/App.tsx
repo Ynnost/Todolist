@@ -4,6 +4,7 @@ import {Todolist} from './Todolist';
 import {v1} from 'uuid'
 import AddItemForm from "./components/AddItemForm";
 
+
 export type FilterValuesType = "all" | "active" | "completed" | "three";
 
 export type TaskType = {
@@ -79,8 +80,20 @@ function App() {
         const todolistID = v1()
         let newTodolist: TodolistType = {id: todolistID, title: newTitle, filter: 'all'}
 
-        setTodolistS([newTodolist,...todolistS])
-        setTasks({...tasksObj,[todolistID]:[]})
+        setTodolistS([newTodolist, ...todolistS])
+        setTasks({...tasksObj, [todolistID]: []})
+    }
+
+    const updateTask = (todolistID: string, taskID: string, newTitle: string) => {
+        setTasks({
+            ...tasksObj, [todolistID]: tasksObj[todolistID].map(el => el.id === taskID ?
+                {...el, title: newTitle} : el)
+        })
+    }
+
+    const updateTodolistTitle = (todolistID: string, title: string) => {
+        setTodolistS(todolistS.map(el => el.id === todolistID ?
+            {...el, title} : el))
     }
 
 
@@ -97,6 +110,8 @@ function App() {
                               addTask={addTask}
                               removeTask={removeTask}
                               changeTaskStatus={changeStatus}
+                              updateTask={updateTask}
+                              updateTodolistTitle={updateTodolistTitle}
                     />
                 )
             })}
