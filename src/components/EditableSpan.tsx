@@ -3,7 +3,7 @@ import React, {ChangeEvent, useState} from 'react';
 
 type PropsType = {
     oldTitle: string
-    callback:(newTitle:string)=>void
+    callback: (newTitle: string) => void
 }
 
 export const EditableSpan = (props: PropsType) => {
@@ -13,16 +13,19 @@ export const EditableSpan = (props: PropsType) => {
 
     const editHandler = () => {
         setEdit(!edit)
-        if(edit){updateTitle()}
+        if (edit) {
+            updateTitle()
+        }
     }
 
-    const onChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTitle(e.currentTarget.value)
     }
 
-const updateTitle = () =>{
+    const updateTitle = () => {
         props.callback(newTitle)
-}
+    }
+
     return (
         edit ? <input value={newTitle} onBlur={editHandler} autoFocus onChange={onChangeHandler}/>
             : <span onDoubleClick={editHandler}>{props.oldTitle}</span>
