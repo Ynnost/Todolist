@@ -1,10 +1,18 @@
-import React, {useState} from 'react';
+import React, {Reducer, useReducer, useState} from 'react';
 import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid'
 import AddItemForm from "./components/AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
+import {
+    addTodolistAC,
+    removeTodolistAC,
+    TodolistReducer,
+    TsarType,
+    updateTodolistTitleAC
+} from "./reducers/TodolistReducer";
+
 
 
 export type FilterValuesType = "all" | "active" | "completed" | "three";
@@ -25,7 +33,12 @@ function App() {
     let todolistID1 = v1()
     let todolistID2 = v1()
 
-    let [todolistS, setTodolistS] = useState<Array<TodolistType>>([
+    // let [todolistS, setTodolistS] = useState<Array<TodolistType>>([
+    //     {id: todolistID1, title: "What to learn", filter: 'all'},
+    //     {id: todolistID2, title: "What to buy", filter: 'all'}
+    // ])
+
+    let [todolistS, dispatchTodolistS] = useReducer<Reducer<TodolistType[], TsarType>>(TodolistReducer,[
         {id: todolistID1, title: "What to learn", filter: 'all'},
         {id: todolistID2, title: "What to buy", filter: 'all'}
     ])
@@ -56,9 +69,10 @@ function App() {
     }
 
     const removeTodolist = (todolistID: string) => {
-        setTodolistS(todolistS.filter(el => el.id !== todolistID))
+        // setTodolistS(todolistS.filter(el => el.id !== todolistID))
+        // console.log(tasksObj)
+        dispatchTodolistS(removeTodolistAC(todolistID))
         delete tasksObj[todolistID]
-        console.log(tasksObj)
     }
 
     const removeTask = (id: string, todolistID: string) => {
@@ -77,11 +91,13 @@ function App() {
     }
 
     const addTodolist = (newTitle: string) => {
-        const todolistID = v1()
-        let newTodolist: TodolistType = {id: todolistID, title: newTitle, filter: 'all'}
-
-        setTodolistS([newTodolist, ...todolistS])
-        setTasks({...tasksObj, [todolistID]: []})
+        const todolistID = v1();
+        // let newTodolist: TodolistType = {id: todolistID, title: newTitle, filter: 'all'}
+        // setTodolistS([newTodolist, ...todolistS])
+        dispatchTodolistS(addTodolistAC(newTitle,todolistID))
+        setTasks({
+          ...tasksObj,[todolistID]: []})
+          console.log(todolistID,'id APP');
     }
 
     const updateTask = (todolistID: string, taskID: string, newTitle: string) => {
@@ -92,11 +108,12 @@ function App() {
     }
 
     const updateTodolistTitle = (todolistID: string, title: string) => {
-        setTodolistS(todolistS.map(el => el.id === todolistID ?
-            {...el, title} : el))
+        dispatchTodolistS(updateTodolistTitleAC(todolistID,title))
+        // setTodolistS(todolistS.map(el => el.id === todolistID ?
+        //     {...el, title} : el))
     }
 
-
+console.log(todolistS)
     return (
         <div className="App">
             <ButtonAppBar/>
@@ -106,9 +123,10 @@ function App() {
                 </Grid>
                 <Grid container spacing={3}>
                     {todolistS.map(el => {
+                        console.log(el)
                         return (
                             <Grid item style={{padding: "20px"}}>
-                                <Paper style={{padding: "10px"}}>
+                                <Paper style={{padding: "10px"}} elevation={10}>
                                     <Todolist key={el.id}
                                               title={el.title}
                                               tasks={tasksObj[el.id]}
