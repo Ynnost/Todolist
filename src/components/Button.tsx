@@ -1,4 +1,3 @@
-import React from 'react';
 import {FilterValuesType} from "../App";
 
 type PropsType = {

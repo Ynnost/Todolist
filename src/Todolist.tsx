@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { FilterValuesType, TaskType } from "./App";
 import AddItemForm from "./components/AddItemForm";
 import { EditableSpan } from "./components/EditableSpan";
@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
+import { SuperCheckbox } from "./components/SuperCheckbox";
 
 export type PropsType = {
   title: string;
@@ -57,6 +58,10 @@ export function Todolist(props: PropsType) {
     return props.removeTodolist(props.id);
   };
 
+  const onChangeTaskStatus = (taskID: string, checked: boolean) => {
+    props.changeTaskStatus(taskID, checked, props.id);
+  };
+
   console.log(props.tasks);
 
   console.log(colanderFoo(), "COlOANDER");
@@ -76,16 +81,9 @@ export function Todolist(props: PropsType) {
         {colanderFoo().map((t) => {
           return (
             <li key={t.id} className={t.isDone ? "is-done" : ""}>
-              <Checkbox
-                checked={t.isDone}
-                onChange={(e) =>
-                  props.changeTaskStatus(
-                    t.id,
-                    e.currentTarget.checked,
-                    props.id
-                  )
-                }
-                defaultChecked
+              <SuperCheckbox
+                isDone={t.isDone}
+                callback={(checked) => onChangeTaskStatus(t.id, checked)}
               />
               <EditableSpan
                 oldTitle={t.title}

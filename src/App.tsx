@@ -1,4 +1,4 @@
-import React, { Reducer, useReducer, useState } from "react";
+import { Reducer, useReducer, useState } from "react";
 import "./App.css";
 import { Todolist } from "./Todolist";
 import { v1 } from "uuid";
@@ -55,12 +55,15 @@ function App() {
     ],
   });
 
+  
+
   const addTask = (title: string, todolistID: string) => {
     let task = { id: v1(), title, isDone: false };
     let todolistTasks = tasksObj[todolistID];
     tasksObj[todolistID] = [task, ...todolistTasks];
     setTasks({ ...tasksObj });
   };
+
 
   const removeTodolist = (todolistID: string) => {
     dispatchTodolistS(removeTodolistAC(todolistID));
@@ -102,8 +105,8 @@ function App() {
     });
   };
 
-  const updateTodolistTitle = (todolistID: string, title: string) => {
-    dispatchTodolistS(updateTodolistTitleAC(todolistID, title));
+  const updateTodolistTitle = (todolistID: string, newtitle: string) => {
+    dispatchTodolistS(updateTodolistTitleAC(todolistID, newtitle));
   };
 
   console.log(todolistS);

@@ -1,28 +1,24 @@
 import { v1 } from "uuid";
 import { TaskType, TodolistType } from "../App";
 
-
-
-
-// export const TasksReducer = (state: TaskType[], action: TasksReducerType) => {
-//    switch (action.type) {
-//      case "ADD-TASK": {
-//        let newTask:TaskType = { id: v1(), title:action.payload.title, isDone: false };
-//        let todolistTasks:TodolistType[] = action.payload.tasksObj[action.payload.todolistID];
-
-//      }
-//      default:
-//        return state;
-//    }
-// };
+export const TasksReducer = (state: TaskType[], action: TasksReducerType) => {
+   switch (action.type) {
+     case "ADD-TASK": {
+       let newTask:TaskType = { id: v1(), title:action.payload.title, isDone: false };
+       return [newTask,...state]
+     }
+     default:
+       return state;
+   }
+};
 
 export type TasksReducerType = AddTaskAC;
 
 type AddTaskAC = ReturnType<typeof addTaskAC>
-export const addTaskAC = (title: string, todolistID: string, tasksObj:TaskType[]) => {
+export const addTaskAC = (title: string, todolistID: string) => {
   return {
     type: "ADD-TASK",
-    payload: { title, todolistID, tasksObj },
+    payload: { title, todolistID },
   } as const;
 };
 
