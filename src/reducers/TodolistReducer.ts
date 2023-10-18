@@ -44,7 +44,7 @@ export type TodolistReducerType =
   | UpdateTodolistTitleAC
   | ChangeFilterAC;
 
-type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
+export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
 
 export const removeTodolistAC = (todolistID: string) => {
   return {
@@ -53,15 +53,15 @@ export const removeTodolistAC = (todolistID: string) => {
   } as const;
 };
 
-type AddTodolistAC = ReturnType<typeof addTodolistAC>;
-export const addTodolistAC = (newTitle: string, todolistID: string) => {
+export type AddTodolistAC = ReturnType<typeof addTodolistAC>;
+export const addTodolistAC = (newTitle: string) => {
   return {
     type: "ADD-TODOLIST",
-    payload: { newTitle, todolistID },
+    payload: { newTitle, todolistID:v1() },
   } as const;
 };
 
-type UpdateTodolistTitleAC = ReturnType<typeof updateTodolistTitleAC>;
+export type UpdateTodolistTitleAC = ReturnType<typeof updateTodolistTitleAC>;
 export const updateTodolistTitleAC = (todolistID: string, newtitle: string) => {
   return {
     type: "UPDATE-TODOLIST-TITLE",
@@ -69,7 +69,7 @@ export const updateTodolistTitleAC = (todolistID: string, newtitle: string) => {
   } as const;
 };
 
-type ChangeFilterAC = ReturnType<typeof changeFilter>;
+export type ChangeFilterAC = ReturnType<typeof changeFilter>;
 export const changeFilter = (id: string, filter: FilterValuesType) => {
   return {
     type: "CHANGE-TODOLIST-FILTER",

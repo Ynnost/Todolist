@@ -28,11 +28,10 @@ test("correct todolist should be remove Todolist ", () => {
 
 test("correct todolist should be add new Todolist", () => {
   const newTodolistTitle = "New Todolist title";
-  const newTodolistID = v1();
 
   const endState: TodolistType[] = TodolistReducer(
     startState,
-    addTodolistAC(newTodolistTitle, newTodolistID)
+    addTodolistAC(newTodolistTitle)
   );
 
   expect(endState.length).toBe(3);
