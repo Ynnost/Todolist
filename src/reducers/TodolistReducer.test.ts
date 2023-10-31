@@ -8,13 +8,20 @@ import {
   updateTodolistTitleAC,
 } from "./TodolistReducer";
 
-let todolistID1 = v1();
-let todolistID2 = v1();
+let todolistID1: string;
+let todolistID2: string;
 
-const startState: TodolistType[] = [
-  { id: todolistID1, title: "What to learn", filter: "all" },
-  { id: todolistID2, title: "What to buy", filter: "all" },
-];
+let startState: TodolistType[];
+
+beforeEach(() => {
+  todolistID1 = v1();
+  todolistID2 = v1();
+
+  startState = [
+    { id: todolistID1, title: "What to learn", filter: "all" },
+    { id: todolistID2, title: "What to buy", filter: "all" },
+  ];
+});
 
 test("correct todolist should be remove Todolist ", () => {
   const endState: TodolistType[] = TodolistReducer(
