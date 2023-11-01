@@ -51,7 +51,7 @@ export function Todolist(props: PropsType) {
   };
 
   const updateTaskHandler = (taskID: string, newTitle: string) => {
-    props.updateTask(props.id, taskID, newTitle);
+    props.updateTask(taskID, newTitle, props.id);
   };
 
   const removeTodolist = () => {
@@ -62,9 +62,10 @@ export function Todolist(props: PropsType) {
     props.changeTaskStatus(taskID, checked, props.id);
   };
 
-  console.log(props.tasks);
+  // console.log(props.tasks);
 
-  console.log(colanderFoo(), "COlOANDER");
+  // console.log(colanderFoo(), "COlOANDER");
+
   return (
     <div>
       <h3>

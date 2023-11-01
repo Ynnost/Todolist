@@ -1,4 +1,5 @@
-import { TaskStateType } from "../App";
+import {  } from "../App";
+import { TaskStateType } from "../AppWithReducer";
 import {
   TasksReducer,
   addTaskAC,

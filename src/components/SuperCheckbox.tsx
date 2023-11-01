@@ -13,6 +13,6 @@ const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
   };
 
   return (
-    <Checkbox checked={props.isDone} onChange={onChangeHandler} defaultChecked />
+    <Checkbox checked={props.isDone} onChange={onChangeHandler}  />
   );
 };

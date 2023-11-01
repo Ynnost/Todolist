@@ -1,17 +1,10 @@
-import { Reducer, useReducer, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { Todolist } from "./Todolist";
 import { v1 } from "uuid";
 import AddItemForm from "./components/AddItemForm";
 import ButtonAppBar from "./ButtonAppBar";
 import { Container, Grid, Paper } from "@mui/material";
-import {
-  addTodolistAC,
-  removeTodolistAC,
-  TodolistReducer,
-  TodolistReducerType,
-  updateTodolistTitleAC,
-} from "./reducers/TodolistReducer";
 
 export type FilterValuesType = "all" | "active" | "completed" | "three";
 
@@ -20,10 +13,6 @@ export type TaskType = {
   title: string;
   isDone: boolean;
 };
-
-export type TaskStateType = {
-  [key:string]:TaskType[]
-}
 
 export type TodolistType = {
   id: string;
@@ -35,36 +24,39 @@ function App() {
   let todolistID1 = v1();
   let todolistID2 = v1();
 
-  let [todolistS, dispatchTodolistS] = useReducer<
-    Reducer<TodolistType[], TodolistReducerType>
-  >(TodolistReducer, [
+  let [todolistS, setTodolistS] = useState<Array<TodolistType>>([
     { id: todolistID1, title: "What to learn", filter: "all" },
     { id: todolistID2, title: "What to buy", filter: "all" },
   ]);
 
   let [tasksObj, setTasks] = useState<Record<string, TaskType[]>>({
     [todolistID1]: [
-      { id: v1(), title: "HTML&CSS", isDone: false },
+      { id: v1(), title: "HTML&CSS", isDone: true },
       { id: v1(), title: "JS", isDone: true },
-      { id: v1(), title: "React", isDone: false },
+      { id: v1(), title: "ReactJS", isDone: false },
+      { id: v1(), title: "Rest API", isDone: false },
+      { id: v1(), title: "GraphQL", isDone: false },
     ],
     [todolistID2]: [
-      { id: v1(), title: "Milck", isDone: true },
-      { id: v1(), title: "Orange", isDone: true },
-      { id: v1(), title: "Apple", isDone: false },
+      { id: v1(), title: "HTML&CSS2", isDone: true },
+      { id: v1(), title: "JS2", isDone: true },
+      { id: v1(), title: "ReactJS2", isDone: false },
+      { id: v1(), title: "Rest API2", isDone: false },
+      { id: v1(), title: "GraphQL2", isDone: false },
     ],
   });
 
   const addTask = (title: string, todolistID: string) => {
-    let task = { id: v1(), title, isDone: false };
+    let task = { id: v1(), title: title, isDone: false };
     let todolistTasks = tasksObj[todolistID];
     tasksObj[todolistID] = [task, ...todolistTasks];
     setTasks({ ...tasksObj });
   };
 
   const removeTodolist = (todolistID: string) => {
-    dispatchTodolistS(removeTodolistAC(todolistID));
+    setTodolistS(todolistS.filter((el) => el.id !== todolistID));
     delete tasksObj[todolistID];
+    console.log(tasksObj);
   };
 
   const removeTask = (id: string, todolistID: string) => {
@@ -87,10 +79,15 @@ function App() {
   };
 
   const addTodolist = (newTitle: string) => {
-    // const todolistID = v1();
-    dispatchTodolistS(addTodolistAC(newTitle));
+    const todolistID = v1();
+    let newTodolist: TodolistType = {
+      id: todolistID,
+      title: newTitle,
+      filter: "all",
+    };
+
+    setTodolistS([newTodolist, ...todolistS]);
     setTasks({ ...tasksObj, [todolistID]: [] });
-    // console.log(todolistID, "id APP");
   };
 
   const updateTask = (todolistID: string, taskID: string, newTitle: string) => {
@@ -102,11 +99,12 @@ function App() {
     });
   };
 
-  const updateTodolistTitle = (todolistID: string, newtitle: string) => {
-    dispatchTodolistS(updateTodolistTitleAC(todolistID, newtitle));
+  const updateTodolistTitle = (todolistID: string, title: string) => {
+    setTodolistS(
+      todolistS.map((el) => (el.id === todolistID ? { ...el, title } : el))
+    );
   };
 
-  console.log(todolistS);
   return (
     <div className="App">
       <ButtonAppBar />
@@ -116,10 +114,9 @@ function App() {
         </Grid>
         <Grid container spacing={3}>
           {todolistS.map((el) => {
-            console.log(el);
             return (
               <Grid item style={{ padding: "20px" }}>
-                <Paper style={{ padding: "10px" }} elevation={10}>
+                <Paper style={{ padding: "10px" }}>
                   <Todolist
                     key={el.id}
                     title={el.title}
