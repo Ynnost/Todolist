@@ -3,10 +3,7 @@ import { v1 } from "uuid";
 
 const initialState: TodolistType[] = [];
 
-export const TodolistReducer = (
-  state: TodolistType[] = initialState,
-  action: TodolistReducerType
-) => {
+export const TodolistReducer = (state: TodolistType[] = initialState, action: TodolistReducerType) => {
   switch (action.type) {
     case "REMOVE-TODOLIST": {
       return state.filter((el) => el.id !== action.payload.todolistID);
@@ -17,22 +14,14 @@ export const TodolistReducer = (
         title: action.payload.newTitle,
         filter: "all",
       };
-      console.log(newTodolist.id, "id Reducer");
+
       return [newTodolist, ...state];
     }
     case "UPDATE-TODOLIST-TITLE": {
-      return state.map((el) =>
-        el.id === action.payload.todolistID
-          ? { ...el, title: action.payload.newtitle }
-          : el
-      );
+      return state.map((el) => (el.id === action.payload.todolistID ? { ...el, title: action.payload.newtitle } : el));
     }
     case "CHANGE-TODOLIST-FILTER": {
-      return state.map((el) =>
-        el.id === action.payload.id
-          ? { ...el, filter: action.payload.filter }
-          : el
-      );
+      return state.map((el) => (el.id === action.payload.id ? { ...el, filter: action.payload.filter } : el));
     }
 
     default:
@@ -40,11 +29,7 @@ export const TodolistReducer = (
   }
 };
 
-export type TodolistReducerType =
-  | RemoveTodolistACType
-  | AddTodolistAC
-  | UpdateTodolistTitleAC
-  | ChangeFilterAC;
+export type TodolistReducerType = RemoveTodolistACType | AddTodolistAC | UpdateTodolistTitleAC | ChangeFilterAC;
 
 export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
 

@@ -1,3 +1,4 @@
+import { memo, useCallback } from "react";
 import {FilterValuesType} from "../App";
 
 type PropsType = {
@@ -9,18 +10,17 @@ type PropsType = {
 }
 
 
-const Button = (props: PropsType) => {
+const Button = memo((props: PropsType) => {
 
-    const onClickHandler = () => {
-        props.callback()
-    }
+    const onClickHandler = useCallback(() => {
+      props.callback();
+    }, [props.callback()]);
 
 
     return (
-
         <button className={props.active ? 'active-filter' : ''}
                 onClick={onClickHandler}>{props.name}</button>
     );
-};
+});
 
 export default Button;

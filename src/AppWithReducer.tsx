@@ -2,7 +2,7 @@ import { Reducer, useReducer } from "react";
 import "./App.css";
 import { Todolist } from "./Todolist";
 import { v1 } from "uuid";
-import AddItemForm from "./components/AddItemForm";
+
 import ButtonAppBar from "./ButtonAppBar";
 import { Container, Grid, Paper } from "@mui/material";
 import {
@@ -19,6 +19,7 @@ import {
   removeTaskAC,
   updateTaskTitleAC,
 } from "./state/TasksReducer";
+import { AddItemForm } from "./components/AddItemForm";
 
 export type FilterValuesType = "all" | "active" | "completed" | "three";
 
