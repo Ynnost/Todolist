@@ -1,16 +1,12 @@
-import { Reducer, useCallback, useReducer } from "react";
-import "./App.css";
-import { Todolist } from "./Todolist";
-import { v1 } from "uuid";
-import ButtonAppBar from "./ButtonAppBar";
+import { useCallback } from "react";
+import { Todolist } from "../Todolist/Todolist";
+import ButtonAppBar from "../ButtonAppBar";
 import { Container, Grid, Paper } from "@mui/material";
-import { addTodolistAC, removeTodolistAC, TodolistReducer, TodolistReducerType, updateTodolistTitleAC } from "./state/TodolistReducer";
-import { TasksReducer, addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "./state/TasksReducer";
-import { AppRootStateType } from "./state/store";
+import { addTodolistAC, removeTodolistAC, updateTodolistTitleAC } from "../../state/reducers/TodolistReducer";
+import { addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { TodolistWithRedux } from "./TodolistWithRedux";
-import { taskSelector, todolistSelector } from "./state/selectors";
-import { AddItemForm } from "./components/AddItemForm";
+import { taskSelector, todolistSelector } from "../../state/selectors";
+import { AddItemForm } from "../AddItemForm";
 
 export type FilterValuesType = "all" | "active" | "completed" | "three";
 
@@ -30,7 +26,7 @@ export type TodolistType = {
   filter: FilterValuesType;
 };
 
-function AppWithReducer() {
+function AppWithRedux() {
   let todolistS = useSelector(todolistSelector);
   let tasksObj = useSelector(taskSelector);
 
@@ -104,4 +100,4 @@ function AppWithReducer() {
   );
 }
 
-export default AppWithReducer;
+export default AppWithRedux;

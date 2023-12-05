@@ -1,10 +1,10 @@
 import { Checkbox, IconButton } from "@mui/material";
-import { EditableSpan } from "./components/EditableSpan";
+import { EditableSpan } from "../EditableSpan";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { TaskType } from "./AppWithRedux";
 import { ChangeEvent, memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "./state/TasksReducer";
+import { changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
+import { TaskType } from "../../App";
 
 type TaskPropsType = {
   task: TaskType;
@@ -13,7 +13,6 @@ type TaskPropsType = {
 
 export const TaskWithRedux = memo(({ task, todolistID }: TaskPropsType) => {
   //  const tasksFilter = useSelector<AppRootStateType, TaskType[]>((state) => state.tasks[todolistID].filter(t=>t.id === taskID));
-
   //  const tasksFind = useSelector<AppRootStateType, TaskType>((state) => state.tasks[todolistID].find((t) => t.id === taskID) as TaskType);
 
   const dispatch = useDispatch();

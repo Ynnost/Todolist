@@ -1,9 +1,7 @@
 import { Reducer, useReducer } from "react";
-import "./App.css";
-import { Todolist } from "./Todolist";
+import { Todolist } from "../Todolist/Todolist";
 import { v1 } from "uuid";
-
-import ButtonAppBar from "./ButtonAppBar";
+import ButtonAppBar from "../ButtonAppBar";
 import { Container, Grid, Paper } from "@mui/material";
 import {
   addTodolistAC,
@@ -11,15 +9,9 @@ import {
   TodolistReducer,
   TodolistReducerType,
   updateTodolistTitleAC,
-} from "./state/TodolistReducer";
-import {
-  TasksReducer,
-  addTaskAC,
-  changeTaskStatusAC,
-  removeTaskAC,
-  updateTaskTitleAC,
-} from "./state/TasksReducer";
-import { AddItemForm } from "./components/AddItemForm";
+} from "../../state/reducers/TodolistReducer";
+import { TasksReducer, addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
+import { AddItemForm } from "../AddItemForm";
 
 export type FilterValuesType = "all" | "active" | "completed" | "three";
 
@@ -43,9 +35,7 @@ function AppWithReducer() {
   let todolistID1 = v1();
   let todolistID2 = v1();
 
-  let [todolistS, dispatchTodolistS] = useReducer<
-    Reducer<TodolistType[], TodolistReducerType>
-  >(TodolistReducer, [
+  let [todolistS, dispatchTodolistS] = useReducer<Reducer<TodolistType[], TodolistReducerType>>(TodolistReducer, [
     { id: todolistID1, title: "What to learn", filter: "all" },
     { id: todolistID2, title: "What to buy", filter: "all" },
   ]);
@@ -77,11 +67,7 @@ function AppWithReducer() {
     dispatchTasks(removeTaskAC(id, todolistID));
   };
 
-  const changeStatus = (
-    taskId: string,
-    isDone: boolean,
-    todolistID: string
-  ) => {
+  const changeStatus = (taskId: string, isDone: boolean, todolistID: string) => {
     dispatchTasks(changeTaskStatusAC(taskId, isDone, todolistID));
   };
 

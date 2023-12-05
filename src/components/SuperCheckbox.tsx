@@ -6,13 +6,10 @@ type PropsType = {
   callback: (checked: boolean) => void;
 };
 
-export const SuperCheckbox = (props:PropsType) => {
-
-const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+export const SuperCheckbox = (props: PropsType) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     props.callback(e.currentTarget.checked);
   };
 
-  return (
-    <Checkbox checked={props.isDone} onChange={onChangeHandler}  />
-  );
+  return <Checkbox checked={props.isDone} onChange={onChangeHandler} />;
 };

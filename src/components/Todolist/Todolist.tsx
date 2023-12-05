@@ -1,13 +1,13 @@
-import React, { ChangeEvent, memo, useCallback, useMemo, useState } from "react";
-import { FilterValuesType, TaskType } from "./App";
+import { memo, useCallback, useMemo, useState } from "react";
+import { FilterValuesType, TaskType } from "../../App";
 
-import { EditableSpan } from "./components/EditableSpan";
+import { EditableSpan } from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { SuperCheckbox } from "./components/SuperCheckbox";
-import { AddItemForm } from "./components/AddItemForm";
-import { BattonMemo } from "./components/ButtonMemo";
+import { SuperCheckbox } from "../SuperCheckbox";
+import { AddItemForm } from "../AddItemForm";
+import { BattonMemo } from "../ButtonMemo";
 import { Task } from "./Task";
 
 export type PropsType = {

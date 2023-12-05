@@ -1,16 +1,14 @@
-import { FilterValuesType, TaskType } from "./App";
-
-import { EditableSpan } from "./components/EditableSpan";
+import { FilterValuesType, TaskType } from "../../App";
+import { EditableSpan } from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
-import { SuperCheckbox } from "./components/SuperCheckbox";
 import { TodolistType } from "./AppWithRedux";
 import { useDispatch, useSelector } from "react-redux";
-import { AppRootStateType } from "./state/store";
-import { addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "./state/TasksReducer";
-import { changeFilterAC, removeTodolistAC, updateTodolistTitleAC } from "./state/TodolistReducer";
-import { AddItemForm } from "./components/AddItemForm";
+import { AppRootStateType } from "../../state/store";
+import { addTaskAC } from "../../state/reducers/TasksReducer";
+import { changeFilterAC, removeTodolistAC, updateTodolistTitleAC } from "../../state/reducers/TodolistReducer";
+import { AddItemForm } from "../AddItemForm";
 import { useCallback } from "react";
 import { TaskWithRedux } from "./TaskWithRedux";
 

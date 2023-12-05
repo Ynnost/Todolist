@@ -1,36 +1,34 @@
-import  {ChangeEvent, memo, useState} from 'react';
-
+import { ChangeEvent, memo, useState } from "react";
 
 type PropsType = {
-    oldTitle: string
-    onChange: (newTitle: string) => void
-}
+  oldTitle: string;
+  onChange: (newTitle: string) => void;
+};
 
 export const EditableSpan = memo((props: PropsType) => {
+  console.log("EditableSpan");
 
-    console.log("EditableSpan");
+  const [edit, setEdit] = useState(false);
+  const [newTitle, setNewTitle] = useState(props.oldTitle);
 
-    const [edit, setEdit] = useState(false)
-    const [newTitle, setNewTitle] = useState(props.oldTitle)
-
-    const editHandler = () => {
-        setEdit(!edit)
-        if (edit) {
-            updateTitle()
-        }
+  const editHandler = () => {
+    setEdit(!edit);
+    if (edit) {
+      updateTitle();
     }
+  };
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTitle(e.currentTarget.value)
-    }
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(e.currentTarget.value);
+  };
 
-    const updateTitle = () => {
-        props.onChange(newTitle);
-    }
+  const updateTitle = () => {
+    props.onChange(newTitle);
+  };
 
-    return (
-        edit ? <input value={newTitle} onBlur={editHandler} autoFocus onChange={onChangeHandler}/>
-            : <span onDoubleClick={editHandler}>{props.oldTitle}</span>
-    );
+  return edit ? (
+    <input value={newTitle} onBlur={editHandler} autoFocus onChange={onChangeHandler} />
+  ) : (
+    <span onDoubleClick={editHandler}>{props.oldTitle}</span>
+  );
 });
-

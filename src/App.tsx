@@ -1,8 +1,7 @@
-import  { useState } from "react";
-import "./App.css";
-import { Todolist } from "./Todolist";
+import { useState } from "react";
+import { Todolist } from "./components/Todolist/Todolist";
 import { v1 } from "uuid";
-import ButtonAppBar from "./ButtonAppBar";
+import ButtonAppBar from "./components/ButtonAppBar";
 import { Container, Grid, Paper } from "@mui/material";
 import { AddItemForm } from "./components/AddItemForm";
 
@@ -65,11 +64,7 @@ function App() {
     setTasks({ ...tasksObj });
   };
 
-  const changeStatus = (
-    taskId: string,
-    isDone: boolean,
-    todolistID: string
-  ) => {
+  const changeStatus = (taskId: string, isDone: boolean, todolistID: string) => {
     let tasks = tasksObj[todolistID];
     let task = tasks.find((t) => t.id === taskId);
     if (task) {
@@ -93,16 +88,12 @@ function App() {
   const updateTask = (todolistID: string, taskID: string, newTitle: string) => {
     setTasks({
       ...tasksObj,
-      [todolistID]: tasksObj[todolistID].map((el) =>
-        el.id === taskID ? { ...el, title: newTitle } : el
-      ),
+      [todolistID]: tasksObj[todolistID].map((el) => (el.id === taskID ? { ...el, title: newTitle } : el)),
     });
   };
 
   const updateTodolistTitle = (todolistID: string, title: string) => {
-    setTodolistS(
-      todolistS.map((el) => (el.id === todolistID ? { ...el, title } : el))
-    );
+    setTodolistS(todolistS.map((el) => (el.id === todolistID ? { ...el, title } : el)));
   };
 
   return (
