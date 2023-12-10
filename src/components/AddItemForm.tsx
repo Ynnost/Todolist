@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 type AddItemPropsType = {
-  callback: (title: string) => void;
+  addItem: (title: string) => void;
 };
 
 export const AddItemForm = memo((props: AddItemPropsType) => {
@@ -12,7 +12,7 @@ export const AddItemForm = memo((props: AddItemPropsType) => {
 
   const addTask = () => {
     if (title.trim() !== "") {
-      props.callback(title.trim());
+      props.addItem(title.trim());
       setTitle("");
     } else {
       setError("Title is required");
