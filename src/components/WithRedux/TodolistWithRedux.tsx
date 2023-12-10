@@ -60,7 +60,7 @@ export function TodolistWithRedux({ todolist }: PropsType) {
           <DeleteIcon />
         </IconButton>
       </h3>
-      <AddItemForm callback={addTaskHandler} />
+      <AddItemForm addItem={addTaskHandler} />
       <ul>
         {tasksForTodolist.map((t) => {
           return <TaskWithRedux key={t.id} task={t} todolistID={id} />;

@@ -94,7 +94,7 @@ function AppWithReducer() {
       <ButtonAppBar />
       <Container>
         <Grid container style={{ padding: "20px" }}>
-          <AddItemForm callback={addTodolist} />
+          <AddItemForm addItem={addTodolist} />
         </Grid>
         <Grid container spacing={3}>
           {todolistS.map((el) => {

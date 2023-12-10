@@ -83,7 +83,7 @@ export const Todolist = memo((props: PropsType) => {
           <DeleteIcon />
         </IconButton>
       </h3>
-      <AddItemForm callback={addTaskHandler} />
+      <AddItemForm addItem={addTaskHandler} />
       <ul>
         {tasksForTodolist.map((t) => {
           return <Task key={t.id} task={t} removeTask={removeTask} changeTaskStatus={onChangeTaskStatus} updateTask={updateTaskHandler} />;
