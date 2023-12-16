@@ -1,5 +1,6 @@
 import axios from "axios";
 import { instance } from "./todolists-api";
+import { title } from "process";
 
 export type GetTasksResponseType = {
   error: string | null;
@@ -21,10 +22,9 @@ export type TaskType = {
   addedDate: string;
 };
 
-type UpdeyeTaskModel = {
+type UpdeteTaskModel = {
   description: string;
   title: string;
-  completed: boolean;
   status: number;
   priority: number;
   startDate: string;
@@ -39,15 +39,15 @@ type ResponseType<D = {}> = {
 
 export const taskAPI = {
   getTask(todolistID: string) {
-    return instance.get<GetTasksResponseType>(`todo-lists/${todolistID}/task`);
+    return instance.get<GetTasksResponseType>(`todo-lists/${todolistID}/tasks`);
   },
-  createTask(todolistID:string, title: string) {
-    return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistID}/`, title);
+  createTask(todolistID: string, title: string) {
+    return instance.post<ResponseType<TaskType>>(`todo-lists/${todolistID}/tasks`, { title });
   },
   deleteTask(todolistID: string, id: string) {
-    return instance.delete<ResponseType>(`todo-lists/${todolistID}/task/${id}`);
+    return instance.delete<ResponseType>(`todo-lists/${todolistID}/tasks/${id}`);
   },
-  updeteTask(todolistID: string, id: string, title: string) {
-    return instance.put<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistID}/task/${id}`, title);
+  updeteTask(todolistID: string, id: string, model: UpdeteTaskModel) {
+    return instance.put<UpdeteTaskModel>(`todo-lists/${todolistID}/tasks/${id}`, model);
   },
 };
