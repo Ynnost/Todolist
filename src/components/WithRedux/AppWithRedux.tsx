@@ -8,23 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { taskSelector, todolistSelector } from "../../state/selectors";
 import { AddItemForm } from "../AddItemForm";
 
-export type FilterValuesType = "all" | "active" | "completed" | "three";
-
-export type TaskType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
-
-export type TaskStateType = {
-  [key: string]: TaskType[];
-};
-
-export type TodolistType = {
-  id: string;
-  title: string;
-  filter: FilterValuesType;
-};
 
 function AppWithRedux() {
   let todolistS = useSelector(todolistSelector);

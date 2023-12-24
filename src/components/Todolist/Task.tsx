@@ -1,8 +1,8 @@
 import { Checkbox, IconButton } from "@mui/material";
 import { EditableSpan } from "../EditableSpan";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { TaskType } from "../WithRedux/AppWithRedux";
 import { ChangeEvent, memo } from "react";
+import {  TaskType } from "../../api";
 
 type TaskPropsType = {
   task: TaskType;
@@ -23,8 +23,8 @@ export const Task = memo(({ task, removeTask, changeTaskStatus, updateTask }: Ta
   };
 
   return (
-    <li key={task.id} className={task.isDone ? "is-done" : ""}>
-      <Checkbox checked={task.isDone} onChange={onChangeTaskStatus} />
+    <li key={task.id} className={task.status ? "is-done" : ""}>
+      <Checkbox checked={task.status} onChange={onChangeTaskStatus} />
       <EditableSpan oldTitle={task.title} onChange={updateTaskHandler} />
       <IconButton aria-label="delete" onClick={onClickHandler}>
         <DeleteIcon />

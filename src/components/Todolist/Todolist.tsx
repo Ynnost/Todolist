@@ -1,14 +1,11 @@
 import { memo, useCallback, useMemo, useState } from "react";
-import { FilterValuesType, TaskType } from "../../App";
-
 import { EditableSpan } from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-
-import { SuperCheckbox } from "../SuperCheckbox";
 import { AddItemForm } from "../AddItemForm";
 import { BattonMemo } from "../ButtonMemo";
 import { Task } from "./Task";
+import { FilterValuesType, TaskStatuses, TaskType } from "../../api";
 
 export type PropsType = {
   title: string;
@@ -67,11 +64,11 @@ export const Todolist = memo((props: PropsType) => {
 
   useMemo(() => {
     if (filter === "active") {
-      tasksForTodolist = props.tasks.filter((t) => !t.isDone);
+      tasksForTodolist = props.tasks.filter((t) => t.status === TaskStatuses.New);
     }
 
     if (filter === "completed") {
-      tasksForTodolist = props.tasks.filter((t) => t.isDone);
+      tasksForTodolist = props.tasks.filter((t) => t.status === TaskStatuses.Completed);
     }
   }, [filter]);
 

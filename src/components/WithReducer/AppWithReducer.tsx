@@ -12,32 +12,17 @@ import {
 } from "../../state/reducers/TodolistReducer";
 import { TasksReducer, addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
 import { AddItemForm } from "../AddItemForm";
+import { TodolistDomainType } from "../../api";
 
-export type FilterValuesType = "all" | "active" | "completed" | "three";
 
-export type TaskType = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
-
-export type TaskStateType = {
-  [key: string]: TaskType[];
-};
-
-export type TodolistType = {
-  id: string;
-  title: string;
-  filter: FilterValuesType;
-};
 
 function AppWithReducer() {
   let todolistID1 = v1();
   let todolistID2 = v1();
 
-  let [todolistS, dispatchTodolistS] = useReducer<Reducer<TodolistType[], TodolistReducerType>>(TodolistReducer, [
-    { id: todolistID1, title: "What to learn", filter: "all" },
-    { id: todolistID2, title: "What to buy", filter: "all" },
+  let [todolistS, dispatchTodolistS] = useReducer<Reducer<TodolistDomainType[], TodolistReducerType>>(TodolistReducer, [
+    { id: todolistID1, title: "What to learn", filter: "all", addDate: "", order: 0 },
+    { id: todolistID2, title: "What to buy", filter: "all", addDate: "", order: 0 },
   ]);
 
   let [tasksObj, dispatchTasks] = useReducer(TasksReducer, {

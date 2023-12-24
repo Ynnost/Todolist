@@ -1,6 +1,4 @@
-import axios from "axios";
 import { instance } from "./todolists-api";
-import { title } from "process";
 
 export type GetTasksResponseType = {
   error: string | null;
@@ -8,18 +6,36 @@ export type GetTasksResponseType = {
   item: TaskType[];
 };
 
+export enum TaskStatuses {
+  New = 0, // new task
+  InProgress = 1,
+  Completed = 2, // complet task
+  Draft = 3,
+}
+
+export enum TaskPriorities {
+  Low = 0, // started
+  Middle = 1,
+  Hi = 2,
+  Urgently = 3,
+  Later = 4,
+}
+
 export type TaskType = {
   description: string;
   title: string;
-  completed: boolean;
-  status: number;
-  priority: number;
+  status: TaskStatuses;
+  priority: TaskPriorities;
   startDate: string;
   deadline: string;
   id: string;
   todoListId: string;
   order: number;
   addedDate: string;
+};
+
+export type TaskStateType = {
+  [key: string]: TaskType[];
 };
 
 type UpdeteTaskModel = {

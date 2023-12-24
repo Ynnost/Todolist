@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { todolistsAPI } from "../api/todolists-api";
 
 const meta = {
-  title: "TODOLIST/API",
+  title: "TODOLIST/API_TODOLIST",
 };
-
 export default meta;
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const GetTodolist = () => {
   const [state, setState] = useState<any>(null);
+
   useEffect(() => {
     todolistsAPI.getTodolists().then((res) => {
       return setState(res.data);
@@ -23,22 +22,26 @@ export const GetTodolist = () => {
 
 export const CreateTodolist = () => {
   const [state, setState] = useState<any>(null);
+
   useEffect(() => {
     todolistsAPI.createTodolist("I").then((res) => {
-      return setState(res.data);
+      return setState(res.data.data.item);
     });
   }, []);
+
   return <div>{JSON.stringify(state)}</div>;
 };
 
 export const DeleteTodolist = () => {
   const [state, setState] = useState<any>(null);
+
   useEffect(() => {
-    const todolistID = "d75ce6f5-0603-4ad4-b2b8-cb2d3f92ad9f";
+    const todolistID = "ca6849db-eb11-4080-b7f3-67bb529f8e9b";
     todolistsAPI.deleteTodolist(todolistID).then((res) => {
-      return setState(res.data);
+      return setState(res.data.data);
     });
   }, []);
+
   return <div>{JSON.stringify(state)}</div>;
 };
 

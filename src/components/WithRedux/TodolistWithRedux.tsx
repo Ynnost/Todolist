@@ -1,9 +1,7 @@
-import { FilterValuesType, TaskType } from "../../App";
 import { EditableSpan } from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
-import { TodolistType } from "./AppWithRedux";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType } from "../../state/store";
 import { addTaskAC } from "../../state/reducers/TasksReducer";
@@ -11,6 +9,7 @@ import { changeFilterAC, removeTodolistAC, updateTodolistTitleAC } from "../../s
 import { AddItemForm } from "../AddItemForm";
 import { useCallback } from "react";
 import { TaskWithRedux } from "./TaskWithRedux";
+import { FilterValuesType, TaskType, TodolistType } from "../../api";
 
 export type PropsType = {
   todolist: TodolistType;
