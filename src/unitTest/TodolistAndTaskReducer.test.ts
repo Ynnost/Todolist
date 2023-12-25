@@ -1,11 +1,11 @@
-import { TodolistType } from "../App";
-import { TaskStateType } from "../components/WithReducer/AppWithReducer";
+
+import { TaskPriorities, TaskStateType, TaskStatuses, TodolistDomainType } from "../api";
 import { TasksReducer } from "../state/reducers/TasksReducer";
 import { TodolistReducer, addTodolistAC, removeTodolistAC } from "../state/reducers/TodolistReducer";
 
 test("is should be equals", () => {
   const startTaskState: TaskStateType = {};
-  const startTodolistState: TodolistType[] = [];
+  const startTodolistState: TodolistDomainType[] = [];
 
   const action = addTodolistAC("new todolist");
 
@@ -23,14 +23,80 @@ test("is should be equals", () => {
 test("new array shold be added when new todolist is added", () => {
   const startState: TaskStateType = {
     todolistID1: [
-      { id: "1", title: "HTML&CSS", isDone: false },
-      { id: "2", title: "JS", isDone: true },
-      { id: "3", title: "React", isDone: false },
+      {
+        id: "1",
+        title: "HTML&CSS",
+        status: TaskStatuses.New,
+        todoListId: "todolistID2",
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
+      {
+        id: "2",
+        title: "JS",
+        status: TaskStatuses.Completed,
+        todoListId: "todolistID2",
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
+      {
+        id: "3",
+        title: "React",
+        status: TaskStatuses.New,
+        todoListId: "todolistID2",
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
     ],
     todolistID2: [
-      { id: "1", title: "Milck", isDone: true },
-      { id: "2", title: "Orange", isDone: true },
-      { id: "3", title: "Apple", isDone: false },
+      {
+        id: "1",
+        title: "Milck",
+        status: TaskStatuses.Completed,
+        todoListId: "todolistID2",
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
+      {
+        id: "2",
+        title: "Orange",
+        status: TaskStatuses.Completed,
+        todoListId: "todolistID2",
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
+      {
+        id: "3",
+        title: "Apple",
+        status: TaskStatuses.New,
+        todoListId: "todolistID2",
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
     ],
   };
 

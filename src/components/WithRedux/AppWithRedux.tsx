@@ -7,6 +7,7 @@ import { addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "
 import { useDispatch, useSelector } from "react-redux";
 import { taskSelector, todolistSelector } from "../../state/selectors";
 import { AddItemForm } from "../AddItemForm";
+import { TaskStateType, TaskStatuses } from "../../api";
 
 
 function AppWithRedux() {
@@ -30,8 +31,8 @@ function AppWithRedux() {
     dispatch(removeTaskAC(id, todolistID));
   };
 
-  const changeStatus = (taskId: string, isDone: boolean, todolistID: string) => {
-    dispatch(changeTaskStatusAC(taskId, isDone, todolistID));
+  const changeStatus = (taskId: string, status: TaskStatuses, todolistID: string) => {
+    dispatch(changeTaskStatusAC(taskId, status, todolistID));
   };
 
   const addTodolist = useCallback(

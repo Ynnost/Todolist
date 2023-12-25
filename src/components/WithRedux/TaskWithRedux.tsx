@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { ChangeEvent, memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
-import { TaskType } from "../../api";
+import { TaskStatuses, TaskType } from "../../api";
 
 
 type TaskPropsType = {
@@ -22,7 +22,7 @@ export const TaskWithRedux = memo(({ task, todolistID }: TaskPropsType) => {
 
   const onChangeTaskStatus = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked, todolistID));
+      dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New, todolistID));
     },
     [dispatch]
   );
@@ -35,8 +35,8 @@ export const TaskWithRedux = memo(({ task, todolistID }: TaskPropsType) => {
   );
 
   return (
-    <li key={task.id} className={task.isDone ? "is-done" : ""}>
-      <Checkbox checked={task.isDone} onChange={onChangeTaskStatus} />
+    <li key={task.id} className={task.status === TaskStatuses.Completed ? "is-done" : ""}>
+      <Checkbox checked={task.status === TaskStatuses.Completed} onChange={onChangeTaskStatus} />
       <EditableSpan oldTitle={task.title} onChange={updateTaskHandler} />
       <IconButton aria-label="delete" onClick={onClickHandler}>
         <DeleteIcon />

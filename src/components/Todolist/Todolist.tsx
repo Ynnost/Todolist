@@ -14,7 +14,7 @@ export type PropsType = {
   id: string;
   addTask: (title: string, todolistID: string) => void;
   removeTask: (id: string, todolistID: string) => void;
-  changeTaskStatus: (taskId: string, isDone: boolean, todolistID: string) => void;
+  changeTaskStatus: (taskId: string, status: TaskStatuses, todolistID: string) => void;
   updateTask: (todolistID: string, taskId: string, newTitle: string) => void;
   updateTodolistTitle: (todolistID: string, newTitle: string) => void;
 };
@@ -30,40 +30,41 @@ export const Todolist = memo((props: PropsType) => {
     (title: string) => {
       props.addTask(title, props.id);
     },
-    [props.addTask, props.id]
+    [props]
   );
 
   const updateTodolistTitleHandler = useCallback(
     (newTitle: string) => {
       props.updateTodolistTitle(props.id, newTitle);
     },
-    [props.updateTodolistTitle, props.id]
+    [props]
   );
 
-  const removeTask = useCallback((taskID: string) => props.removeTask(taskID, props.id), [props.id]);
+  const removeTask = useCallback((taskID: string) => props.removeTask(taskID, props.id), [props]);
 
   const updateTaskHandler = useCallback(
     (taskID: string, newTitle: string) => {
       props.updateTask(taskID, newTitle, props.id);
     },
-    [props.updateTask, props.id]
+    [props]
   );
 
   const removeTodolist = useCallback(() => {
     return props.removeTodolist(props.id);
-  }, [props.removeTodolist, props.id]);
+  }, [props]);
 
   const onChangeTaskStatus = useCallback(
-    (taskID: string, checked: boolean) => {
+    (taskID: string, checked: TaskStatuses) => {
       props.changeTaskStatus(taskID, checked, props.id);
     },
-    [props.changeTaskStatus, props.id]
+    [props]
   );
 
   let tasksForTodolist = props.tasks;
 
   useMemo(() => {
     if (filter === "active") {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       tasksForTodolist = props.tasks.filter((t) => t.status === TaskStatuses.New);
     }
 

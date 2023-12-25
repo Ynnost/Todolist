@@ -22,14 +22,14 @@ type ResponseType<Type = {}> = {
   data: Type;
 };
 
-type CreateTodolistResponseType = {
-  resultCode: number;
-  messages: string[];
-  fieldsErrors: string[];
-  data: {
-    item: TodolistType;
-  };
-};
+// type CreateTodolistResponseType = {
+//   resultCode: number;
+//   messages: string[];
+//   fieldsErrors: string[];
+//   data: {
+//     item: TodolistType;
+//   };
+// };
 
 // type DeleteTodoistType = { resultCode: 1; messages: ["Something wrong"]; data: {} };
 

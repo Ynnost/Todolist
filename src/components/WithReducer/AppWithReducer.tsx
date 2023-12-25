@@ -12,7 +12,7 @@ import {
 } from "../../state/reducers/TodolistReducer";
 import { TasksReducer, addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
 import { AddItemForm } from "../AddItemForm";
-import { TodolistDomainType } from "../../api";
+import { TaskPriorities, TaskStatuses, TodolistDomainType } from "../../api";
 
 
 
@@ -27,14 +27,56 @@ function AppWithReducer() {
 
   let [tasksObj, dispatchTasks] = useReducer(TasksReducer, {
     [todolistID1]: [
-      { id: v1(), title: "HTML&CSS", isDone: false },
-      { id: v1(), title: "JS", isDone: true },
-      { id: v1(), title: "React", isDone: false },
+      {
+        id: v1(),
+        title: "HTML&CSS",
+        status: TaskStatuses.Completed,
+        todoListId: todolistID1,
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
+      {
+        id: v1(),
+        title: "JS",
+        status: TaskStatuses.Completed,
+        todoListId: todolistID1,
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
     ],
     [todolistID2]: [
-      { id: v1(), title: "Milck", isDone: true },
-      { id: v1(), title: "Orange", isDone: true },
-      { id: v1(), title: "Apple", isDone: false },
+      {
+        id: v1(),
+        title: "Milck",
+        status: TaskStatuses.Completed,
+        todoListId: todolistID1,
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
+      {
+        id: v1(),
+        title: "Orange",
+        status: TaskStatuses.Completed,
+        todoListId: todolistID1,
+        description: "",
+        startDate: "",
+        deadline: "",
+        addedDate: "",
+        order: 0,
+        priority: TaskPriorities.Low,
+      },
     ],
   });
 
@@ -52,8 +94,8 @@ function AppWithReducer() {
     dispatchTasks(removeTaskAC(id, todolistID));
   };
 
-  const changeStatus = (taskId: string, isDone: boolean, todolistID: string) => {
-    dispatchTasks(changeTaskStatusAC(taskId, isDone, todolistID));
+  const changeStatus = (taskId: string, status: TaskStatuses, todolistID: string) => {
+    dispatchTasks(changeTaskStatusAC(taskId, status, todolistID));
   };
 
   const addTodolist = (newTitle: string) => {

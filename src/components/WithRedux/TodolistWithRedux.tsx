@@ -9,10 +9,10 @@ import { changeFilterAC, removeTodolistAC, updateTodolistTitleAC } from "../../s
 import { AddItemForm } from "../AddItemForm";
 import { useCallback } from "react";
 import { TaskWithRedux } from "./TaskWithRedux";
-import { FilterValuesType, TaskType, TodolistType } from "../../api";
+import { FilterValuesType, TaskStatuses, TaskType, TodolistDomainType } from "../../api";
 
 export type PropsType = {
-  todolist: TodolistType;
+  todolist: TodolistDomainType;
 };
 
 export function TodolistWithRedux({ todolist }: PropsType) {
@@ -44,11 +44,11 @@ export function TodolistWithRedux({ todolist }: PropsType) {
   let tasksForTodolist = tasks;
 
   if (filter === "active") {
-    tasksForTodolist = tasks.filter((t) => !t.isDone);
+    tasksForTodolist = tasks.filter((t) => t.status === TaskStatuses.New);
   }
 
   if (filter === "completed") {
-    tasksForTodolist = tasks.filter((t) => t.isDone);
+    tasksForTodolist = tasks.filter((t) => t.status === TaskStatuses.Completed);
   }
 
   return (
