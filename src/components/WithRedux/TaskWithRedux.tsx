@@ -18,20 +18,20 @@ export const TaskWithRedux = memo(({ task, todolistID }: TaskPropsType) => {
 
   const dispatch = useDispatch();
 
-  const onClickHandler = useCallback(() => dispatch(removeTaskAC(task.id, todolistID)), [dispatch]);
+  const onClickHandler = useCallback(() => dispatch(removeTaskAC(task.id, todolistID)), [dispatch, task.id, todolistID]);
 
   const onChangeTaskStatus = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New, todolistID));
     },
-    [dispatch]
+    [dispatch, task.id, todolistID]
   );
 
   const updateTaskHandler = useCallback(
     (newTitle: string) => {
       dispatch(updateTaskTitleAC(task.id, newTitle, todolistID));
     },
-    [dispatch]
+    [dispatch, task.id, todolistID]
   );
 
   return (

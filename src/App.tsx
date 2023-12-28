@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Todolist } from "./components/Todolist/Todolist";
 import { v1 } from "uuid";
 import ButtonAppBar from "./components/ButtonAppBar";
 import { Container, Grid, Paper } from "@mui/material";
 import { AddItemForm } from "./components/AddItemForm";
 import { TaskPriorities, TaskStateType, TaskStatuses, TodolistDomainType } from "./api";
+import { todolistsAPI } from "./api/todolists-api";
+import { getTodolistAC } from "./state/reducers/TodolistReducer";
 
 function App() {
   let todolistID1 = v1();
@@ -133,6 +135,12 @@ function App() {
   const updateTodolistTitle = (todolistID: string, title: string) => {
     setTodolistS(todolistS.map((el) => (el.id === todolistID ? { ...el, title } : el)));
   };
+
+   useEffect(() => {
+     todolistsAPI.getTodolists().then((res) => {
+       getTodolistAC(res.data);
+     });
+   }, );
 
   return (
     <div className="App">

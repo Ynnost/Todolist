@@ -1,6 +1,6 @@
 import { v1 } from "uuid";
 import {} from "../../App";
-import { AddTodolistAC, RemoveTodolistACType } from "./TodolistReducer";
+import { AddTodolistAC, GetTodolistAC, RemoveTodolistACType } from "./TodolistReducer";
 import { TaskPriorities, TaskStateType, TaskStatuses, TaskType } from "../../api";
 
 
@@ -8,6 +8,13 @@ const initialState: TaskStateType = {};
 
 export const TasksReducer = (state: TaskStateType = initialState, action: TasksReducerType): TaskStateType => {
   switch (action.type) {
+    case "SET-TODOLIST": {
+      let stateCopy = {...state}
+      action.payload.todolists.forEach((td)=>{
+        stateCopy[td.id] = []
+      })
+      return stateCopy;
+    }
     case "ADD-TASK": {
       let newTask: TaskType = {
         id: v1(),
@@ -59,6 +66,7 @@ export const TasksReducer = (state: TaskStateType = initialState, action: TasksR
 
     case "REMOVE-TODOLIST": {
       let {
+        // eslint-disable-next-line no-empty-pattern
         [action.payload.todolistID]: [],
         ...rest
       } = state;
@@ -70,7 +78,14 @@ export const TasksReducer = (state: TaskStateType = initialState, action: TasksR
   }
 };
 
-export type TasksReducerType = AddTaskAC | RemoveTaskAC | ChangeTaskStatusAC | UpdateTaskTitleAC | AddTodolistAC | RemoveTodolistACType;
+export type TasksReducerType =
+  | AddTaskAC
+  | RemoveTaskAC
+  | ChangeTaskStatusAC
+  | UpdateTaskTitleAC
+  | AddTodolistAC
+  | RemoveTodolistACType
+  | GetTodolistAC;
 
 type AddTaskAC = ReturnType<typeof addTaskAC>;
 type RemoveTaskAC = ReturnType<typeof removeTaskAC>;
@@ -84,14 +99,12 @@ export const addTaskAC = (title: string, todolistID: string) => {
   } as const;
 };
 
-
 export const removeTaskAC = (id: string, todolistID: string) => {
   return {
     type: "REMOVE-TASK",
     payload: { id, todolistID },
   } as const;
 };
-
 
 export const changeTaskStatusAC = (id: string, status: TaskStatuses, todolistID: string) => {
   return {
@@ -100,7 +113,6 @@ export const changeTaskStatusAC = (id: string, status: TaskStatuses, todolistID:
   } as const;
 };
 
-;
 export const updateTaskTitleAC = (id: string, title: string, todolistID: string) => {
   return {
     type: "UPDATE-TASK",

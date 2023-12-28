@@ -20,6 +20,8 @@ export function TodolistWithRedux({ todolist }: PropsType) {
 
   const tasks = useSelector<AppRootStateType, TaskType[]>((state) => state.tasks[id]);
 
+  console.log(tasks)
+
   const dispatch = useDispatch();
 
   const changeFilter = (value: FilterValuesType) => {
@@ -30,7 +32,7 @@ export function TodolistWithRedux({ todolist }: PropsType) {
     (title: string) => {
       dispatch(addTaskAC(title, id));
     },
-    [dispatch]
+    [dispatch, id]
   );
 
   const updateTodolistTitleHandler = (newTitle: string) => {

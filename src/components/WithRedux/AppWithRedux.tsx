@@ -1,20 +1,20 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { Todolist } from "../Todolist/Todolist";
 import ButtonAppBar from "../ButtonAppBar";
 import { Container, Grid, Paper } from "@mui/material";
-import { addTodolistAC, removeTodolistAC, updateTodolistTitleAC } from "../../state/reducers/TodolistReducer";
+import { addTodolistAC, getTodolistsThunk, removeTodolistAC, updateTodolistTitleAC } from "../../state/reducers/TodolistReducer";
 import { addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { taskSelector, todolistSelector } from "../../state/selectors";
 import { AddItemForm } from "../AddItemForm";
-import { TaskStateType, TaskStatuses } from "../../api";
-
+import { TaskStatuses } from "../../api";
+import { useAppDispatch } from "../../state/store";
 
 function AppWithRedux() {
   let todolistS = useSelector(todolistSelector);
-  let tasksObj = useSelector(taskSelector);
+  let tasks = useSelector(taskSelector);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const addTask = useCallback(
     (title: string, todolistID: string) => {
@@ -50,6 +50,10 @@ function AppWithRedux() {
     dispatch(updateTodolistTitleAC(todolistID, newtitle));
   };
 
+  useEffect(() => {
+    dispatch(getTodolistsThunk);
+  }, [dispatch]);
+
   return (
     <div className="App">
       <ButtonAppBar />
@@ -65,7 +69,7 @@ function AppWithRedux() {
                   <Todolist
                     key={el.id}
                     title={el.title}
-                    tasks={tasksObj[el.id]}
+                    tasks={tasks[el.id]}
                     id={el.id}
                     removeTodolist={removeTodolist}
                     addTask={addTask}
