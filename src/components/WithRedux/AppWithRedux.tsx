@@ -2,23 +2,27 @@ import { useCallback, useEffect } from "react";
 import { Todolist } from "../Todolist/Todolist";
 import ButtonAppBar from "../ButtonAppBar";
 import { Container, Grid, Paper } from "@mui/material";
-import { addTodolistAC, getTodolistsThunk, removeTodolistAC, updateTodolistTitleAC } from "../../state/reducers/TodolistReducer";
-import { addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
-import { useSelector } from "react-redux";
+import { addTodolistAC, getTodolistsThunkTC, removeTodolistAC, updateTodolistTitleAC } from "../../state/reducers/TodolistReducer";
+import {
+  createTaskThunkTC,
+  removeTaskThunkTC,
+  updateTaskStatusTC,
+  updateTaskTitleAC,
+} from "../../state/reducers/TasksReducer";
 import { taskSelector, todolistSelector } from "../../state/selectors";
 import { AddItemForm } from "../AddItemForm";
 import { TaskStatuses } from "../../api";
-import { useAppDispatch } from "../../state/store";
+import { useAppDispatch, useAppSelector } from "../../state/store";
 
 function AppWithRedux() {
-  let todolistS = useSelector(todolistSelector);
-  let tasks = useSelector(taskSelector);
+  let todolistS = useAppSelector(todolistSelector);
+  let tasks = useAppSelector(taskSelector);
 
   const dispatch = useAppDispatch();
 
   const addTask = useCallback(
-    (title: string, todolistID: string) => {
-      dispatch(addTaskAC(title, todolistID));
+    (todolistID: string, title: string) => {
+      dispatch(createTaskThunkTC(todolistID, title));
     },
     [dispatch]
   );
@@ -27,12 +31,15 @@ function AppWithRedux() {
     dispatch(removeTodolistAC(todolistID));
   };
 
-  const removeTask = (id: string, todolistID: string) => {
-    dispatch(removeTaskAC(id, todolistID));
-  };
+  const removeTask = useCallback(
+    (todolistID: string, id: string) => {
+      dispatch(removeTaskThunkTC(todolistID, id));
+    },
+    [dispatch]
+  );
 
   const changeStatus = (taskId: string, status: TaskStatuses, todolistID: string) => {
-    dispatch(changeTaskStatusAC(taskId, status, todolistID));
+    dispatch(updateTaskStatusTC(todolistID, taskId, status));
   };
 
   const addTodolist = useCallback(
@@ -51,7 +58,7 @@ function AppWithRedux() {
   };
 
   useEffect(() => {
-    dispatch(getTodolistsThunk);
+    dispatch(getTodolistsThunkTC());
   }, [dispatch]);
 
   return (

@@ -3,7 +3,7 @@ import { instance } from "./todolists-api";
 export type GetTasksResponseType = {
   error: string | null;
   totalCount: number;
-  item: TaskType[];
+  items: TaskType[];
 };
 
 export enum TaskStatuses {
@@ -38,7 +38,7 @@ export type TaskStateType = {
   [key: string]: TaskType[];
 };
 
-type UpdeteTaskModel = {
+export type UpdeteTaskModel = {
   description: string;
   title: string;
   status: number;
@@ -58,7 +58,7 @@ export const taskAPI = {
     return instance.get<GetTasksResponseType>(`todo-lists/${todolistID}/tasks`);
   },
   createTask(todolistID: string, title: string) {
-    return instance.post<ResponseType<TaskType>>(`todo-lists/${todolistID}/tasks`, { title });
+    return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistID}/tasks`, { title });
   },
   deleteTask(todolistID: string, id: string) {
     return instance.delete<ResponseType>(`todo-lists/${todolistID}/tasks/${id}`);

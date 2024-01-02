@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { EditableSpan } from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -6,6 +6,8 @@ import { AddItemForm } from "../AddItemForm";
 import { BattonMemo } from "../ButtonMemo";
 import { Task } from "./Task";
 import { FilterValuesType, TaskStatuses, TaskType } from "../../api";
+import { getTasksThunkTC } from "../../state/reducers/TasksReducer";
+import { useAppDispatch } from "../../state/store";
 
 export type PropsType = {
   title: string;
@@ -22,13 +24,19 @@ export type PropsType = {
 export const Todolist = memo((props: PropsType) => {
   let [filter, setFilter] = useState<FilterValuesType>("all");
 
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getTasksThunkTC(props.id));
+  }, [dispatch, props.id]);
+
   const changeFilter = useCallback((value: FilterValuesType) => {
     setFilter(value);
   }, []);
 
   const addTaskHandler = useCallback(
     (title: string) => {
-      props.addTask(title, props.id);
+      props.addTask(props.id, title);
     },
     [props]
   );
@@ -40,7 +48,7 @@ export const Todolist = memo((props: PropsType) => {
     [props]
   );
 
-  const removeTask = useCallback((taskID: string) => props.removeTask(taskID, props.id), [props]);
+  const removeTask = useCallback((taskID: string) => props.removeTask(props.id, taskID), [props]);
 
   const updateTaskHandler = useCallback(
     (taskID: string, newTitle: string) => {

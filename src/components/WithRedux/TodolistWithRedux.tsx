@@ -2,12 +2,12 @@ import { EditableSpan } from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
-import { useDispatch, useSelector } from "react-redux";
-import { AppRootStateType } from "../../state/store";
-import { addTaskAC } from "../../state/reducers/TasksReducer";
+import { useSelector } from "react-redux";
+import { AppRootStateType, useAppDispatch } from "../../state/store";
+import { addTaskAC, createTaskThunkTC, getTasksThunkTC } from "../../state/reducers/TasksReducer";
 import { changeFilterAC, removeTodolistAC, updateTodolistTitleAC } from "../../state/reducers/TodolistReducer";
 import { AddItemForm } from "../AddItemForm";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { TaskWithRedux } from "./TaskWithRedux";
 import { FilterValuesType, TaskStatuses, TaskType, TodolistDomainType } from "../../api";
 
@@ -18,11 +18,15 @@ export type PropsType = {
 export function TodolistWithRedux({ todolist }: PropsType) {
   const { id, title, filter } = todolist;
 
+  const dispatch = useAppDispatch();
+
   const tasks = useSelector<AppRootStateType, TaskType[]>((state) => state.tasks[id]);
 
-  console.log(tasks)
+  useEffect(() => {
+    dispatch(getTasksThunkTC(id));
+  }, [dispatch, id]);
 
-  const dispatch = useDispatch();
+  console.log(tasks);
 
   const changeFilter = (value: FilterValuesType) => {
     dispatch(changeFilterAC(id, value));
@@ -30,7 +34,7 @@ export function TodolistWithRedux({ todolist }: PropsType) {
 
   const addTaskHandler = useCallback(
     (title: string) => {
-      dispatch(addTaskAC(title, id));
+      dispatch(createTaskThunkTC(id, title));
     },
     [dispatch, id]
   );

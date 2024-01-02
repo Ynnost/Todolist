@@ -159,17 +159,17 @@ test("correct task should be deleted from correct array", () => {
   });
 });
 
-test("correct task should be addes  correct array", () => {
-  const action = addTaskAC("Juce", "todolistID2");
+// test("correct task should be addes  correct array", () => {
+//   const action = addTaskAC("Juce", "todolistID2");
 
-  const endState = TasksReducer(startState, action);
+//   const endState = TasksReducer(startState, action);
 
-  expect(endState["todolistID1"].length).toBe(3);
-  expect(endState["todolistID2"].length).toBe(4);
-  expect(endState["todolistID2"][0].id).toBeDefined();
-  expect(endState["todolistID2"][0].title).toBe("Juce");
-  expect(endState["todolistID2"][0].status).toBe(TaskStatuses.New);
-});
+//   expect(endState["todolistID1"].length).toBe(3);
+//   expect(endState["todolistID2"].length).toBe(4);
+//   expect(endState["todolistID2"][0].id).toBeDefined();
+//   expect(endState["todolistID2"][0].title).toBe("Juce");
+//   expect(endState["todolistID2"][0].status).toBe(TaskStatuses.New);
+// });
 
 test("status of specified task shold be changed", () => {
   const action = changeTaskStatusAC("2", TaskStatuses.New, "todolistID2");

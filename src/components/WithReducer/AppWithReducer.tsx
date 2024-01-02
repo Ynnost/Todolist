@@ -10,15 +10,18 @@ import {
   TodolistReducerType,
   updateTodolistTitleAC,
 } from "../../state/reducers/TodolistReducer";
-import { TasksReducer, addTaskAC, changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
+import { TasksReducer, addTaskAC, changeTaskStatusAC, createTaskThunkTC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
 import { AddItemForm } from "../AddItemForm";
 import { TaskPriorities, TaskStatuses, TodolistDomainType } from "../../api";
+import { useAppDispatch } from "../../state/store";
 
 
 
 function AppWithReducer() {
   let todolistID1 = v1();
   let todolistID2 = v1();
+
+  const dispatch = useAppDispatch();
 
   let [todolistS, dispatchTodolistS] = useReducer<Reducer<TodolistDomainType[], TodolistReducerType>>(TodolistReducer, [
     { id: todolistID1, title: "What to learn", addDate: "", order: 0, filter: "all" },
@@ -81,7 +84,7 @@ function AppWithReducer() {
   });
 
   const addTask = (title: string, todolistID: string) => {
-    dispatchTasks(addTaskAC(title, todolistID));
+    dispatch(createTaskThunkTC(todolistID, title));
   };
 
   const removeTodolist = (todolistID: string) => {

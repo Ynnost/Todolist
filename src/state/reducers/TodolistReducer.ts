@@ -3,13 +3,12 @@ import { FilterValuesType, TodolistDomainType, TodolistType } from "../../api";
 import { Dispatch } from "redux";
 import { todolistsAPI } from "../../api/todolists-api";
 
-
 const initialState: TodolistDomainType[] = [];
 
 export const TodolistReducer = (state: TodolistDomainType[] = initialState, action: TodolistReducerType) => {
   switch (action.type) {
-    case "SET-TODOLIST" :{
-      return action.payload.todolists.map((tl)=>({...tl, filter:'all'}))
+    case "SET-TODOLIST": {
+      return action.payload.todolists.map((tl) => ({ ...tl, filter: "all" }));
     }
     case "REMOVE-TODOLIST": {
       return state.filter((el) => el.id !== action.payload.todolistID);
@@ -80,8 +79,16 @@ export const getTodolistAC = (todolists: TodolistType[]) => {
   } as const;
 };
 
-export const getTodolistsThunk = (dispatch:Dispatch) => {
-  todolistsAPI.getTodolists().then((res)=>{
-      dispatch(getTodolistAC(res.data))
-    })
-}
+// export const getTodolistsThunk = (dispatch:Dispatch) => {
+//   todolistsAPI.getTodolists().then((res)=>{
+//       dispatch(getTodolistAC(res.data))
+//     })
+// }
+
+// Функция вызывается в Middleware
+
+export const getTodolistsThunkTC = () => (dispatch: Dispatch) => {
+  todolistsAPI.getTodolists().then((res) => {
+    dispatch(getTodolistAC(res.data));
+  });
+};

@@ -6,13 +6,13 @@ import { useDispatch } from "react-redux";
 import { changeTaskStatusAC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
 import { TaskStatuses, TaskType } from "../../api";
 
-
 type TaskPropsType = {
   task: TaskType;
   todolistID: string;
 };
 
 export const TaskWithRedux = memo(({ task, todolistID }: TaskPropsType) => {
+  ;
   //  const tasksFilter = useSelector<AppRootStateType, TaskType[]>((state) => state.tasks[todolistID].filter(t=>t.id === taskID));
   //  const tasksFind = useSelector<AppRootStateType, TaskType>((state) => state.tasks[todolistID].find((t) => t.id === taskID) as TaskType);
 
