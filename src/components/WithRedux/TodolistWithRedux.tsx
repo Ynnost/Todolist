@@ -4,8 +4,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 import { AppRootStateType, useAppDispatch } from "../../state/store";
-import { addTaskAC, createTaskThunkTC, getTasksThunkTC } from "../../state/reducers/TasksReducer";
-import { changeFilterAC, removeTodolistAC, updateTodolistTitleAC } from "../../state/reducers/TodolistReducer";
+import { createTaskThunkTC, getTasksThunkTC } from "../../state/reducers/TasksReducer";
+import { changeFilterAC, removeTodolistTC, updateTodolistTitleTC } from "../../state/reducers/TodolistReducer";
 import { AddItemForm } from "../AddItemForm";
 import { useCallback, useEffect } from "react";
 import { TaskWithRedux } from "./TaskWithRedux";
@@ -26,8 +26,6 @@ export function TodolistWithRedux({ todolist }: PropsType) {
     dispatch(getTasksThunkTC(id));
   }, [dispatch, id]);
 
-  console.log(tasks);
-
   const changeFilter = (value: FilterValuesType) => {
     dispatch(changeFilterAC(id, value));
   };
@@ -40,11 +38,11 @@ export function TodolistWithRedux({ todolist }: PropsType) {
   );
 
   const updateTodolistTitleHandler = (newTitle: string) => {
-    dispatch(updateTodolistTitleAC(id, newTitle));
+    dispatch(updateTodolistTitleTC(id, newTitle));
   };
 
   const removeTodolist = () => {
-    dispatch(removeTodolistAC(id));
+    dispatch(removeTodolistTC(id));
   };
 
   let tasksForTodolist = tasks;

@@ -2,6 +2,7 @@ import { v1 } from "uuid";
 import { FilterValuesType, TodolistDomainType, TodolistType } from "../../api";
 import { Dispatch } from "redux";
 import { todolistsAPI } from "../../api/todolists-api";
+import { SetStatusACType, setStatusAC } from "./appReducer";
 
 const initialState: TodolistDomainType[] = [];
 
@@ -36,7 +37,13 @@ export const TodolistReducer = (state: TodolistDomainType[] = initialState, acti
   }
 };
 
-export type TodolistReducerType = RemoveTodolistACType | AddTodolistAC | UpdateTodolistTitleAC | ChangeFilterAC | GetTodolistAC;
+export type TodolistReducerType =
+  | RemoveTodolistACType
+  | AddTodolistAC
+  | UpdateTodolistTitleAC
+  | ChangeFilterAC
+  | GetTodolistAC
+  | SetStatusACType;
 
 export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>;
 export type AddTodolistAC = ReturnType<typeof addTodolistAC>;
@@ -88,7 +95,27 @@ export const getTodolistAC = (todolists: TodolistType[]) => {
 // Функция вызывается в Middleware
 
 export const getTodolistsThunkTC = () => (dispatch: Dispatch) => {
+  dispatch(setStatusAC("loading"));
   todolistsAPI.getTodolists().then((res) => {
     dispatch(getTodolistAC(res.data));
+    dispatch(setStatusAC("succeeded"));
+  });
+};
+
+export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => {
+  todolistsAPI.deleteTodolist(todolistId).then((res) => {
+    dispatch(removeTodolistAC(todolistId));
+  });
+};
+
+export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+  todolistsAPI.createTodolist(title).then((res) => {
+    dispatch(addTodolistAC(res.data.data.item.title));
+  });
+};
+
+export const updateTodolistTitleTC = (todoListId: string, title: string) => (dispatch: Dispatch) => {
+  todolistsAPI.updeteTodolist(todoListId, title).then((res) => {
+    dispatch(updateTodolistTitleAC(todoListId, title));
   });
 };

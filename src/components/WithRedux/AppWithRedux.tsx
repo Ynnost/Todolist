@@ -1,22 +1,24 @@
 import { useCallback, useEffect } from "react";
 import { Todolist } from "../Todolist/Todolist";
 import ButtonAppBar from "../ButtonAppBar";
-import { Container, Grid, Paper } from "@mui/material";
-import { addTodolistAC, getTodolistsThunkTC, removeTodolistAC, updateTodolistTitleAC } from "../../state/reducers/TodolistReducer";
+import { Container, Grid, LinearProgress, Paper } from "@mui/material";
 import {
-  createTaskThunkTC,
-  removeTaskThunkTC,
-  updateTaskStatusTC,
-  updateTaskTitleAC,
-} from "../../state/reducers/TasksReducer";
+  addTodolistTC,
+  getTodolistsThunkTC,
+  removeTodolistTC,
+  updateTodolistTitleTC,
+} from "../../state/reducers/TodolistReducer";
+import { createTaskThunkTC, removeTaskThunkTC, updateTaskStatusTC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
 import { taskSelector, todolistSelector } from "../../state/selectors";
 import { AddItemForm } from "../AddItemForm";
 import { TaskStatuses } from "../../api";
 import { useAppDispatch, useAppSelector } from "../../state/store";
+import { RequestStatusType } from "../../state/reducers/appReducer";
 
 function AppWithRedux() {
   let todolistS = useAppSelector(todolistSelector);
   let tasks = useAppSelector(taskSelector);
+  let status = useAppSelector<RequestStatusType>((state) => state.app.status);
 
   const dispatch = useAppDispatch();
 
@@ -28,7 +30,7 @@ function AppWithRedux() {
   );
 
   const removeTodolist = (todolistID: string) => {
-    dispatch(removeTodolistAC(todolistID));
+    dispatch(removeTodolistTC(todolistID));
   };
 
   const removeTask = useCallback(
@@ -44,7 +46,7 @@ function AppWithRedux() {
 
   const addTodolist = useCallback(
     (newTitle: string) => {
-      dispatch(addTodolistAC(newTitle));
+      dispatch(addTodolistTC(newTitle));
     },
     [dispatch]
   );
@@ -54,7 +56,7 @@ function AppWithRedux() {
   };
 
   const updateTodolistTitle = (todolistID: string, newtitle: string) => {
-    dispatch(updateTodolistTitleAC(todolistID, newtitle));
+    dispatch(updateTodolistTitleTC(todolistID, newtitle));
   };
 
   useEffect(() => {
@@ -64,6 +66,7 @@ function AppWithRedux() {
   return (
     <div className="App">
       <ButtonAppBar />
+      {status === "loading" && <LinearProgress />}
       <Container>
         <Grid container style={{ padding: "20px" }}>
           <AddItemForm addItem={addTodolist} />

@@ -5,10 +5,12 @@ import { TodolistReducer } from "../state/reducers/TodolistReducer";
 import { v1 } from "uuid";
 import { createStore, combineReducers } from "redux";
 import { TaskPriorities, TaskStatuses } from "../api";
+import { appReducer } from "../state/reducers/appReducer";
 
 const rootReducer = combineReducers({
   tasks: TasksReducer,
   todolist: TodolistReducer,
+  app: appReducer,
 });
 
 const initialGlobalState = {
@@ -69,6 +71,9 @@ const initialGlobalState = {
         priority: TaskPriorities.Low,
       },
     ],
+  },
+  app: {
+    status: "loading",
   },
 };
 
