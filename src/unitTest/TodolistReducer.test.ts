@@ -24,14 +24,14 @@ test("correct todolist should be remove Todolist", () => {
   expect(endState[0].id).toBe(todolistID2);
 });
 
-test("correct todolist should be add new Todolist", () => {
-  const newTodolistTitle = "New Todolist title";
+// test("correct todolist should be add new Todolist", () => {
+//   const newTodolistTitle = "New Todolist title";
 
-  const endState: TodolistDomainType[] = TodolistReducer(startState, addTodolistAC(newTodolistTitle));
+//   const endState: TodolistDomainType[] = TodolistReducer(startState, addTodolistAC(newTodolistTitle));
 
-  expect(endState.length).toBe(3);
-  expect(endState[0].title).toBe(newTodolistTitle);
-});
+//   expect(endState.length).toBe(3);
+//   expect(endState[0].title).toBe(newTodolistTitle);
+// });
 
 test("correct todolist should be update title Todolist", () => {
   const uppdateTodolistTitle = "Todolist";

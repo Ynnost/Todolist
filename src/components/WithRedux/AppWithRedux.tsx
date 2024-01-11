@@ -2,13 +2,8 @@ import { useCallback, useEffect } from "react";
 import { Todolist } from "../Todolist/Todolist";
 import ButtonAppBar from "../ButtonAppBar";
 import { Container, Grid, LinearProgress, Paper } from "@mui/material";
-import {
-  addTodolistTC,
-  getTodolistsThunkTC,
-  removeTodolistTC,
-  updateTodolistTitleTC,
-} from "../../state/reducers/TodolistReducer";
-import { createTaskThunkTC, removeTaskThunkTC, updateTaskStatusTC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
+import { addTodolistTC, getTodolistsThunkTC, removeTodolistTC, updateTodolistTitleTC } from "../../state/reducers/TodolistReducer";
+import { createTaskThunkTC, removeTaskThunkTC, updateTaskTC } from "../../state/reducers/TasksReducer";
 import { taskSelector, todolistSelector } from "../../state/selectors";
 import { AddItemForm } from "../AddItemForm";
 import { TaskStatuses } from "../../api";
@@ -41,7 +36,7 @@ function AppWithRedux() {
   );
 
   const changeStatus = (taskId: string, status: TaskStatuses, todolistID: string) => {
-    dispatch(updateTaskStatusTC(todolistID, taskId, status));
+    dispatch(updateTaskTC(todolistID, taskId, { status }));
   };
 
   const addTodolist = useCallback(
@@ -51,8 +46,8 @@ function AppWithRedux() {
     [dispatch]
   );
 
-  const updateTask = (taskID: string, newTitle: string, todolistID: string) => {
-    dispatch(updateTaskTitleAC(taskID, newTitle, todolistID));
+  const updateTask = (taskId: string, title: string, todolistID: string) => {
+    dispatch(updateTaskTC(todolistID, taskId, { title }));
   };
 
   const updateTodolistTitle = (todolistID: string, newtitle: string) => {

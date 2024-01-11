@@ -1,4 +1,3 @@
-import { v1 } from "uuid";
 import { FilterValuesType, TodolistDomainType, TodolistType } from "../../api";
 import { Dispatch } from "redux";
 import { todolistsAPI } from "../../api/todolists-api";
@@ -15,14 +14,7 @@ export const TodolistReducer = (state: TodolistDomainType[] = initialState, acti
       return state.filter((el) => el.id !== action.payload.todolistID);
     }
     case "ADD-TODOLIST": {
-      let newTodolist: TodolistDomainType = {
-        id: action.payload.todolistID,
-        title: action.payload.newTitle,
-        filter: "all",
-        addDate: "",
-        order: 0,
-      };
-
+      const newTodolist: TodolistDomainType = { ...action.payload.todolist, filter: "all" };
       return [newTodolist, ...state];
     }
     case "UPDATE-TODOLIST-TITLE": {
@@ -58,10 +50,10 @@ export const removeTodolistAC = (todolistID: string) => {
   } as const;
 };
 
-export const addTodolistAC = (newTitle: string) => {
+export const addTodolistAC = (todolist: TodolistType) => {
   return {
     type: "ADD-TODOLIST",
-    payload: { newTitle, todolistID: v1() },
+    payload: { todolist },
   } as const;
 };
 
@@ -103,19 +95,25 @@ export const getTodolistsThunkTC = () => (dispatch: Dispatch) => {
 };
 
 export const removeTodolistTC = (todolistId: string) => (dispatch: Dispatch) => {
+  dispatch(setStatusAC("loading"));
   todolistsAPI.deleteTodolist(todolistId).then((res) => {
     dispatch(removeTodolistAC(todolistId));
+    dispatch(setStatusAC("succeeded"));
   });
 };
 
 export const addTodolistTC = (title: string) => (dispatch: Dispatch) => {
+  dispatch(setStatusAC("loading"));
   todolistsAPI.createTodolist(title).then((res) => {
-    dispatch(addTodolistAC(res.data.data.item.title));
+    dispatch(addTodolistAC(res.data.data.item));
+    dispatch(setStatusAC("succeeded"));
   });
 };
 
 export const updateTodolistTitleTC = (todoListId: string, title: string) => (dispatch: Dispatch) => {
+  dispatch(setStatusAC("loading"));
   todolistsAPI.updeteTodolist(todoListId, title).then((res) => {
     dispatch(updateTodolistTitleAC(todoListId, title));
+    dispatch(setStatusAC("succeeded"));
   });
 };

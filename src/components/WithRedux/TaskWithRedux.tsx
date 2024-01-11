@@ -12,7 +12,6 @@ type TaskPropsType = {
 };
 
 export const TaskWithRedux = memo(({ task, todolistID }: TaskPropsType) => {
-  ;
   //  const tasksFilter = useSelector<AppRootStateType, TaskType[]>((state) => state.tasks[todolistID].filter(t=>t.id === taskID));
   //  const tasksFind = useSelector<AppRootStateType, TaskType>((state) => state.tasks[todolistID].find((t) => t.id === taskID) as TaskType);
 
@@ -22,7 +21,7 @@ export const TaskWithRedux = memo(({ task, todolistID }: TaskPropsType) => {
 
   const onChangeTaskStatus = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New, todolistID));
+      dispatch(changeTaskStatusAC(task.id, todolistID, e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New));
     },
     [dispatch, task.id, todolistID]
   );

@@ -10,12 +10,10 @@ import {
   TodolistReducerType,
   updateTodolistTitleAC,
 } from "../../state/reducers/TodolistReducer";
-import { TasksReducer, addTaskAC, changeTaskStatusAC, createTaskThunkTC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
+import { TasksReducer, changeTaskStatusAC, createTaskThunkTC, removeTaskAC, updateTaskTitleAC } from "../../state/reducers/TasksReducer";
 import { AddItemForm } from "../AddItemForm";
 import { TaskPriorities, TaskStatuses, TodolistDomainType } from "../../api";
 import { useAppDispatch } from "../../state/store";
-
-
 
 function AppWithReducer() {
   let todolistID1 = v1();
@@ -98,14 +96,19 @@ function AppWithReducer() {
   };
 
   const changeStatus = (taskId: string, status: TaskStatuses, todolistID: string) => {
-    dispatchTasks(changeTaskStatusAC(taskId, status, todolistID));
+    dispatchTasks(changeTaskStatusAC(taskId, todolistID, status));
   };
 
   const addTodolist = (newTitle: string) => {
-    let action = addTodolistAC(newTitle);
+    let action = addTodolistAC({
+      id: v1(),
+      addDate: "",
+      order: 0,
+      title: newTitle,
+    });
     dispatchTodolistS(action);
     dispatchTasks(action);
-    console.log(todolistS);
+
     // console.log(tasksObj);
   };
 

@@ -11,7 +11,7 @@ const initialState: TaskStateType = {};
 export const TasksReducer = (state: TaskStateType = initialState, action: TasksReducerType): TaskStateType => {
   switch (action.type) {
     case "SET-TASKS": {
-      return { ...state, [action.payload.todoListId]: action.payload.tasks};
+      return { ...state, [action.payload.todoListId]: action.payload.tasks };
     }
     case "SET-TODOLIST": {
       let stateCopy = { ...state };
@@ -50,7 +50,7 @@ export const TasksReducer = (state: TaskStateType = initialState, action: TasksR
     case "ADD-TODOLIST": {
       return {
         ...state,
-        [action.payload.todolistID]: [],
+        [action.payload.todolist.id]: [],
       };
     }
 
@@ -99,7 +99,7 @@ export const removeTaskAC = (todolistID: string, id: string) => {
   } as const;
 };
 
-export const changeTaskStatusAC = (id: string, status: TaskStatuses, todolistID: string) => {
+export const changeTaskStatusAC = (id: string, todolistID: string, status: TaskStatuses) => {
   return {
     type: "CHANGE-TASK-STATUS",
     payload: { id, status, todolistID },
@@ -129,33 +129,51 @@ export const getTasksThunkTC = (todoListId: string) => (dispatch: Dispatch) => {
 };
 
 export const removeTaskThunkTC = (todolistId: string, taskId: string) => (dispatch: Dispatch) => {
+  dispatch(setStatusAC("loading"));
   taskAPI.deleteTask(todolistId, taskId).then((res) => {
     dispatch(removeTaskAC(todolistId, taskId));
+    dispatch(setStatusAC("succeeded"));
   });
 };
 
 export const createTaskThunkTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+  dispatch(setStatusAC("loading"));
   taskAPI.createTask(todolistId, title).then((res) => {
     dispatch(addTaskAC(todolistId, res.data.data.item));
+    dispatch(setStatusAC("succeeded"));
   });
 };
 
-export const updateTaskStatusTC =
-  (todolistId: string, taskId: string, status: TaskStatuses) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
+type UpdeteDomeinTaskModelType = {
+  description?: string;
+  title?: string;
+  status?: number;
+  priority?: number;
+  startDate?: string;
+  deadline?: string;
+};
+
+export const updateTaskTC =
+  (todolistId: string, taskId: string, domeinModel: UpdeteDomeinTaskModelType) =>
+  (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    dispatch(setStatusAC("loading"));
     const task = getState().tasks[todolistId].find((task) => task.id === taskId);
 
     if (task) {
-      const model: UpdeteTaskModel = {
+      const apiModel: UpdeteTaskModel = {
         title: task.title,
         description: task.description,
-        status,
+        status: task.status,
         priority: task.priority,
         startDate: task.startDate,
         deadline: task.deadline,
+        ...domeinModel,
       };
 
-      taskAPI.updeteTask(todolistId, taskId, model).then((res) => {
-        dispatch(changeTaskStatusAC(taskId, status, todolistId));
+      taskAPI.updeteTask(todolistId, taskId, apiModel).then((res) => {
+        dispatch(changeTaskStatusAC(taskId, todolistId, apiModel.status));
+        dispatch(updateTaskTitleAC(taskId, apiModel.title, todolistId));
+        dispatch(setStatusAC("succeeded"));
       });
     }
   };
