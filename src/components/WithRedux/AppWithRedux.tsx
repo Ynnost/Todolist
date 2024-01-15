@@ -9,6 +9,7 @@ import { AddItemForm } from "../AddItemForm";
 import { TaskStatuses } from "../../api";
 import { useAppDispatch, useAppSelector } from "../../state/store";
 import { RequestStatusType } from "../../state/reducers/appReducer";
+import { CustomizedSnackbars } from "../EroorSnaccbar/ErrorSnackbar";
 
 function AppWithRedux() {
   let todolistS = useAppSelector(todolistSelector);
@@ -76,6 +77,7 @@ function AppWithRedux() {
                     title={el.title}
                     tasks={tasks[el.id]}
                     id={el.id}
+                    entityStatus={el.entityStatus}
                     removeTodolist={removeTodolist}
                     addTask={addTask}
                     removeTask={removeTask}
@@ -89,6 +91,7 @@ function AppWithRedux() {
           })}
         </Grid>
       </Container>
+      <CustomizedSnackbars/>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { TodolistReducer, addTodolistAC, changeFilterAC, removeTodolistAC, updateTodolistTitleAC } from "../state/reducers/TodolistReducer";
+import { TodolistReducer, changeFilterAC, removeTodolistAC, updateTodolistTitleAC } from "../state/reducers/TodolistReducer";
 import { FilterValuesType, TodolistDomainType } from "../api";
 
 let todolistID1: string;
@@ -12,8 +12,8 @@ beforeEach(() => {
   todolistID2 = v1();
 
   startState = [
-    { id: todolistID1, title: "What to learn", filter: "all", addDate: "", order: 0 },
-    { id: todolistID2, title: "What to buy", filter: "all", addDate: "", order: 0 },
+    { id: todolistID1, title: "What to learn", filter: "all", addDate: "", order: 0, entityStatus: "idle" },
+    { id: todolistID2, title: "What to buy", filter: "all", addDate: "", order: 0, entityStatus: "idle" },
   ];
 });
 

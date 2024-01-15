@@ -8,10 +8,12 @@ import { Task } from "./Task";
 import { FilterValuesType, TaskStatuses, TaskType } from "../../api";
 import { getTasksThunkTC } from "../../state/reducers/TasksReducer";
 import { useAppDispatch } from "../../state/store";
+import { RequestStatusType } from "../../state/reducers/appReducer";
 
 export type PropsType = {
   title: string;
   tasks: Array<TaskType>;
+  entityStatus: RequestStatusType | string;
   removeTodolist: (id: string) => void;
   id: string;
   addTask: (title: string, todolistID: string) => void;
@@ -85,7 +87,7 @@ export const Todolist = memo((props: PropsType) => {
     <div>
       <h3>
         <EditableSpan oldTitle={props.title} onChange={updateTodolistTitleHandler} />
-        <IconButton aria-label="delete" onClick={removeTodolist}>
+        <IconButton aria-label="delete" onClick={removeTodolist} disabled={props.entityStatus === "loading"}>
           <DeleteIcon />
         </IconButton>
       </h3>

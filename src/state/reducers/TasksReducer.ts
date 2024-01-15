@@ -4,7 +4,7 @@ import { TaskStateType, TaskStatuses, TaskType } from "../../api";
 import { UpdeteTaskModel, taskAPI } from "../../api/task-api";
 import { Dispatch } from "redux";
 import { AppRootStateType } from "../store";
-import { SetStatusACType, setStatusAC } from "./appReducer";
+import { ActionsAppReducerType, setErrorAC, setStatusAC } from "./appReducer";
 
 const initialState: TaskStateType = {};
 
@@ -77,7 +77,7 @@ export type TasksReducerType =
   | RemoveTodolistACType
   | GetTodolistAC
   | SetTasksAC
-  | SetStatusACType;
+  | ActionsAppReducerType;
 
 type AddTaskAC = ReturnType<typeof addTaskAC>;
 type RemoveTaskAC = ReturnType<typeof removeTaskAC>;
@@ -139,7 +139,15 @@ export const removeTaskThunkTC = (todolistId: string, taskId: string) => (dispat
 export const createTaskThunkTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
   dispatch(setStatusAC("loading"));
   taskAPI.createTask(todolistId, title).then((res) => {
-    dispatch(addTaskAC(todolistId, res.data.data.item));
+    if (res.data.resultCode === 0) {
+      dispatch(addTaskAC(todolistId, res.data.data.item));
+    } else {
+      if (res.data.messages.length) {
+        dispatch(setErrorAC(res.data.messages[0]));
+      } else {
+        dispatch(setErrorAC("Some error"));
+      }
+    }
     dispatch(setStatusAC("succeeded"));
   });
 };

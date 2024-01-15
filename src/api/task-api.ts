@@ -49,7 +49,7 @@ export type UpdeteTaskModel = {
 
 type ResponseType<D = {}> = {
   resultCode: 0;
-  messages: [];
+  messages: string[];
   data: D;
 };
 

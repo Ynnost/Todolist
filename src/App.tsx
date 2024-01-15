@@ -13,8 +13,8 @@ function App() {
   let todolistID2 = v1();
 
   let [todolistS, setTodolistS] = useState<Array<TodolistDomainType>>([
-    { id: todolistID1, title: "What to learn", filter: "all", addDate: "", order: 0 },
-    { id: todolistID2, title: "What to buy", filter: "all", addDate: "", order: 0 },
+    { id: todolistID1, title: "What to learn", filter: "all", addDate: "", order: 0, entityStatus: "idle" },
+    { id: todolistID2, title: "What to buy", filter: "all", addDate: "", order: 0, entityStatus: "idle" },
   ]);
 
   let [tasksObj, setTasks] = useState<TaskStateType>({
@@ -119,6 +119,7 @@ function App() {
       filter: "all",
       addDate: "",
       order: 0,
+      entityStatus: "idle",
     };
 
     setTodolistS([newTodolist, ...todolistS]);
@@ -136,11 +137,11 @@ function App() {
     setTodolistS(todolistS.map((el) => (el.id === todolistID ? { ...el, title } : el)));
   };
 
-   useEffect(() => {
-     todolistsAPI.getTodolists().then((res) => {
-       getTodolistAC(res.data);
-     });
-   }, );
+  useEffect(() => {
+    todolistsAPI.getTodolists().then((res) => {
+      getTodolistAC(res.data);
+    });
+  });
 
   return (
     <div className="App">
@@ -159,6 +160,7 @@ function App() {
                     title={el.title}
                     tasks={tasksObj[el.id]}
                     id={el.id}
+                    entityStatus={el.entityStatus}
                     removeTodolist={removeTodolist}
                     addTask={addTask}
                     removeTask={removeTask}
